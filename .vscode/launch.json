@@ -1,0 +1,31 @@
+//Añadir debugger Odoo en vscode launch.json
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Python:Odoo",
+            "type": "debugpy",
+            "request": "launch",
+            "stopOnEntry": false,
+            "python": "${command:python.interpreterPath}",
+            "console": "integratedTerminal",
+            "program": "/usr/bin/odoo",
+            "args": [
+                "--config=/etc/odoo/odoo.conf",
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+        }
+    ]
+}
+
+
+
+//Añadir li­nea para acceso a odoo modo debug en pg_hba.conf
+//local   all             odoo                                trust
+
+//Añadir el directorio temporal en odoo.conf y dar permisos a full chmod -Rf 777 /var/lib/odoo/.local/share/Odoo
+//data_dir = /var/lib/odoo/.local/share/Odoo

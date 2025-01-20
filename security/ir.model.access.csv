@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_iscapop_item_model_adm,iscapop.item_model.item,model_iscapop_item_model,base.group_user,1,1,1,1
+access_iscapop_item_details_model_adm,iscapop.item_datails_model.details,model_iscapop_item_details_model,base.group_user,1,1,1,1
+access_iscapop_category_model_adm,iscapop.category_model.item,model_iscapop_category_model,base.group_user,1,1,1,1
