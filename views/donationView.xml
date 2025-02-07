@@ -1,0 +1,91 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition 
+        <record model="ir.ui.view" id="iscapop.item_all_model_tree">
+            <field name="name">Tree Client</field>
+            <field name="model">invoices.client_model</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="surname" />
+                    <field name="dni" />
+                    <field name="phone" widget="telephone" />
+                    <field name="email" widget="email" />
+                    <field name="invoice_ids" widget="tags"/>
+                </tree>
+            </field>
+        </record>-->
+
+        <!-- explicit form view definition -->
+        <record model="ir.ui.view" id="iscapop.donation_all_model_tree">
+            <field name="name">Tree Donation</field>
+            <field name="model">iscapop.donation_model</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="photo" widget="photo"/>
+                    <field name="name"/>
+                    <field name="donator" />
+                    <field name="receiver" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="iscapop.donation_all_model_form">
+            <field name="name">Donation Form</field>
+            <field name="model">iscapop.donation_model</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <body>
+                            <group name="mainGroup">
+                                <group name="LeftSide" string="Info">
+
+
+
+                                </group>
+                                <group name="RightSide" string="">
+
+                                </group>
+                                <group name="CenterSide" colspan="2">
+                                    <field name="photo" widget="photo"/>
+                                    <field name="name"/>
+                                    <field name="donator" />
+                                    <field name="receiver" />
+                                </group>
+                            </group>
+                        </body>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Kanban View-->
+
+
+
+        <record model="ir.actions.act_window" id="iscapop.action_window_donation_list">
+            <field name="name">Donation list</field>
+            <field name="res_model">iscapop.donation_model</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Top menu item -->
+
+        <menuitem name="Iscapop" id="iscapop.menu_root" web_icon="iscapop,static/description/icon.png"/>
+        <!--    <menuitem name="custom-addons/iscapop" id="custom-addons/iscapop.menu_root"/>
+        -->
+
+        <!-- menu categories -->
+
+        <menuitem name="Donation" id="iscapop.donations" parent="iscapop.menu_root"/>
+        <!--    <menuitem name="Menu 2" id="custom-addons/iscapop.menu_2" parent="custom-addons/iscapop.menu_root"/>
+    -->
+        <!-- actions -->
+
+        <menuitem name="List donations" id="iscapop.donations_list" parent="iscapop.donations" action="iscapop.action_window_donation_list"/>
+
+        <!--    <menuitem name="Server to list" id="custom-addons/iscapop" parent="custom-addons/iscapop.menu_2" action="custom-addons/iscapop.action_server"/>
+-->
+    </data>
+</odoo>

@@ -25,17 +25,19 @@ class itemModel(models.Model):
         inverse_name='item_id',
     )
     
-    category_ids = fields.Many2many(
-        string='Categories',
+    category_id = fields.Many2one(
+        string='Category',
         comodel_name='iscapop.category_model',
+        ondelete='restrict',
     )
     
-
+    
     @api.depends('details_ids')
     def _compute_stock_total(self):
         temp=0
-        for details in self.details_ids:
-            if details.condition!='bad' :
-                temp+=details.stock
-        if temp!=self.stock_full:
-            self.stock_full=temp
+        for record in self:
+            for details in record.details_ids:
+                if details.condition!='bad' :
+                    temp+=details.stock
+            if temp!=record.stock_full:
+                record.stock_full=temp

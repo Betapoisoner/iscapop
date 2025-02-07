@@ -1,0 +1,24 @@
+<odoo>
+    <data >
+        <record model="ir.ui.view" id="iscapop.donation_all_wizard_form">
+            <field name="name">Donation Form</field>
+            <field name="model">iscapop.donation_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <body>
+                            <group name="mainGroup">
+                                <group name="CenterSide" colspan="2">
+                                    <field name="photo" widget="photo"/>
+                                    <field name="name"/>
+                                    <field name="donator" />
+                                    <field name="receiver" />
+                                </group>
+                            </group>
+                        </body>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

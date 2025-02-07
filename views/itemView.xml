@@ -1,21 +1,6 @@
 <odoo>
     <data>
-        <!-- explicit list view definition 
-        <record model="ir.ui.view" id="iscapop.item_all_model_tree">
-            <field name="name">Tree Client</field>
-            <field name="model">invoices.client_model</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="surname" />
-                    <field name="dni" />
-                    <field name="phone" widget="telephone" />
-                    <field name="email" widget="email" />
-                    <field name="invoice_ids" widget="tags"/>
-                </tree>
-            </field>
-        </record>-->
-
+        
         <!-- explicit form view definition -->
         <record model="ir.ui.view" id="iscapop.item_all_model_form">
             <field name="name">Item Form</field>
@@ -29,7 +14,7 @@
                                     <field name="name"/>
                                     <field name="description" />
                                     <field name="stock_full" />
-                                    <field name="category_ids" widget="many2many_tags" />
+                                    <field name="category_id" />
                                 </group>
                                 <group name="RightSide" string="Photo">
                                     <field name="photo" widget="image"/>
@@ -40,6 +25,9 @@
                                             <field name="details_ids">
                                                 <tree>
                                                     <field name="condition"/>
+                                                    <field name="reserved" />
+                                                    <field name="state" widget="badge" />
+                                                    <field name="location_id" />
                                                     <field name="stock"/>
                                                 </tree>
                                             </field>
@@ -59,7 +47,7 @@
             <field name="name">Item List</field>
             <field name="model">iscapop.item_model</field>
             <field name="arch" type="xml">
-                <kanban class="o_res_partner_kanban">
+                <kanban class="o_res_partner_kanban" on_create="quick_create">
                     <field name="name"/>
                     <field name="description"/>
                     <field name="photo"/>
@@ -78,22 +66,27 @@
                                     <div t-if="record.stock_full.value">
                                         <t t-esc="record.stock_full.value"/>
                                     </div>
-                                    <field name="category_ids" widget="many2many_tags" />
+                                    <field name="category_id" />
                                 </div>
                             </div>
                         </t>
                     </templates>
                 </kanban>
             </field>
-        </record>ç
+        </record>
 
         <record model="ir.actions.act_window" id="iscapop.action_window_item_list">
+            <field name="domain">[('create_uid', '=', uid)]</field>
             <field name="name">Item list</field>
             <field name="res_model">iscapop.item_model</field>
             <field name="view_mode">kanban,form</field>
         </record>
 
-        <!-- Top menu item -->
+        <record model="ir.actions.act_window" id="iscapop.action_window_item_create">
+            <field name="name">Item create</field>
+            <field name="res_model">iscapop.item_model</field>
+            <field name="view_mode">form</field>
+        </record>
 
         <menuitem name="Iscapop" id="iscapop.menu_root"/>
         <!--    <menuitem name="custom-addons/iscapop" id="custom-addons/iscapop.menu_root"/>
@@ -107,6 +100,9 @@
         <!-- actions -->
 
         <menuitem name="List Items" id="iscapop.items_list" parent="iscapop.items" action="iscapop.action_window_item_list"/>
+        <menuitem name="Create Item" id="iscapop.items_create" parent="iscapop.items" action="iscapop.action_window_item_create"/>
+
+
         <!--    <menuitem name="Server to list" id="custom-addons/iscapop" parent="custom-addons/iscapop.menu_2" action="custom-addons/iscapop.action_server"/>
 -->
     </data>

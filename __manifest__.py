@@ -24,6 +24,10 @@ Highschool items changer app
     'data': [
         'security/ir.model.access.csv',
         'views/itemView.xml',
+        'views/locationView.xml',
+        'views/donationView.xml',
+        'views/donationWizardView.xml',
+        'views/itemDetailsView.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
