@@ -150,7 +150,27 @@ class Iscapop(http.Controller):
                 domain=[("id","=",categoryId),("create_uid","=",uid)]
             categories = http.request.env['iscapop.category_model'].sudo().search_read(domain,['id','name','complete_name','description','item_ids'])
             for category in categories:
-                                # Convert date fields
+                items_list=[]
+                for item_id in category['item_ids']:
+                    item = http.request.env['iscapop.item_model'].sudo().search_read([("id", "=", item_id)], ['id','name','description','stock_full','details_ids'])
+                    if item:
+                        item_data=item[0]
+                        details_list = []
+                        for detail_id in item_data.get('details_ids', []):
+                            detail = http.request.env['iscapop.item_details_model'].sudo().search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
+                            if detail:
+                                detail_data=detail[0]
+                            # Convert IDs to names for related fields within details
+
+                            details_list.append(detail_data)  # Append the modified detail dictionary
+
+                        item_data['details_ids'] = details_list  # Assign the list of details back to the item
+                        items_list.append(item_data)  # Append the modified detail dictionary
+                
+                category['item_ids'] = items_list  # Assign the list of details back to the item
+
+                
+                # Convert date fields
                 for name, value in category.items():
                     if isinstance(value, datetime.date):
                         category[name] = value.strftime('%Y-%m-%d')
