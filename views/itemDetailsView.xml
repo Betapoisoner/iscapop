@@ -37,7 +37,7 @@
             <field name="view_mode">pivot</field>
         </record>
 
-        <menuitem name="Iscapop" id="iscapop.menu_root" web_icon="iscapop,static/description/icon.png"/>
+        <menuitem name="Iscapop" id="iscapop.menu_root"/>
 
         <menuitem name="Details" id="iscapop.items_details" parent="iscapop.menu_root"/>
 

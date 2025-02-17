@@ -4,11 +4,10 @@ from odoo import models, fields, api
 class donationWizard(models.TransientModel):
     _name = 'iscapop.donation_wizard'
     _description = 'iscapop.donation_wizard'
-    _rec_name="name"
 
 
     name = fields.Char(string="Name",help="This is where you put the name of the item.",
-        compute='_compute_name' )
+        compute='_compute_name',store=True)
     
     item_id = fields.Many2one(
         string='Item',
@@ -27,5 +26,7 @@ class donationWizard(models.TransientModel):
     @api.depends('item_id')
     def _compute_name(self):
         for record in self:
-            record.name = record.item_id.item_id.name
+            for item in record.item_id:
+                name=item.item_id.name
+                record.name=name
 

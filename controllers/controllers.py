@@ -1,22 +1,182 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+import datetime
+from odoo import http
+import json
 
 
-# class Custom-addons/iscapop(http.Controller):
-#     @http.route('/custom-addons/iscapop/custom-addons/iscapop', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
+class Iscapop(http.Controller):
+    #Get items
+    @http.route(['/iscapop/get_items/','/iscapop/get_items/<int:uid>','/iscapop/get_items/<int:uid>/<int:itemId>'],methods=["GET"], auth='public')
+    def getItems(self,itemId=None,uid=None, **kw):
+        try:
+            if uid == None and itemId==None:
+                domain=[]
+                return json_data
+            elif uid != None  and itemId==None:
+                domain=[("create_uid","=",uid)]
+            elif uid != None  and itemId!=None:
+                domain=[("id","=",itemId),("create_uid","=",uid)]
+            items = http.request.env['iscapop.item_model'].sudo().search_read(domain,['id','name','description','stock_full','details_ids','category_id'])
+            for item in items:
+                details_list = []
+                for detail_id in item.get('details_ids', []):
+                    detail = http.request.env['iscapop.item_details_model'].sudo().search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
+                    if detail:
+                        detail_data=detail[0]
+                        # Convert IDs to names for related fields within details
 
-#     @http.route('/custom-addons/iscapop/custom-addons/iscapop/objects', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('custom-addons/iscapop.listing', {
-#             'root': '/custom-addons/iscapop/custom-addons/iscapop',
-#             'objects': http.request.env['custom-addons/iscapop.custom-addons/iscapop'].search([]),
-#         })
+                        details_list.append(detail_data)  # Append the modified detail dictionary
 
-#     @http.route('/custom-addons/iscapop/custom-addons/iscapop/objects/<model("custom-addons/iscapop.custom-addons/iscapop"):obj>', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('custom-addons/iscapop.object', {
-#             'object': obj
-#         })
+                item['details_ids'] = details_list  # Assign the list of details back to the item
 
+                # Convert date fields
+                for name, value in item.items():
+                    if isinstance(value, datetime.date):
+                        item[name] = value.strftime('%Y-%m-%d')
+
+            data=items
+            result = {
+                "status": 200,
+                "data": data
+                }
+            json_data = http.Response(json.dumps(result),mimetype="application/json")
+            return json_data
+        except Exception as e:
+            data={
+                "status":400,
+                "error":e
+                }
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
+    
+    #Get donaciones
+    @http.route(['/iscapop/get_donations/','/iscapop/get_donations/<int:uid>','/iscapop/get_donations/<int:uid>/<int:donationId>'],methods=["GET"], auth='public')
+    def getDonaciones(self,donationId=None,uid=None, **kw):
+        try:
+            if uid == None and donationId==None:
+                data={
+                    "status":400,
+                    "error":'User Id not given'
+                    }
+                json_data = http.Response(json.dumps(data),mimetype="application/json")
+                return json_data
+            elif uid != None  and donationId==None:
+                domain=[("create_uid","=",uid)]
+            elif uid != None  and donationId!=None:
+                domain=[("id","=",donationId),("create_uid","=",uid)]
+            donations = http.request.env['iscapop.donation_model'].sudo().search_read(domain,['id','name','item_id','donator','receiver'])
+            for donation in donations:
+                # Convert date fields
+                for name, value in donation.items():
+                    if isinstance(value, datetime.date):
+                        donation[name] = value.strftime('%Y-%m-%d')
+
+            data=donations
+            result = {
+                "status": 200,
+                "data": data
+                }
+            json_data = http.Response(json.dumps(result),mimetype="application/json")
+            return json_data
+        except Exception as e:
+            data={
+                "status":400,
+                "error":e
+                }
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
+    
+    #Get locations
+    @http.route(['/iscapop/get_locations/','/iscapop/get_locations/<int:uid>','/iscapop/get_locations/<int:uid>/<int:locationId>'],methods=["GET"], auth='public')
+    def getLocations(self,locationId=None,uid=None, **kw):
+        try:
+            if uid == None and locationId==None:
+                data={
+                    "status":400,
+                    "error":'User Id not given'
+                    }
+                json_data = http.Response(json.dumps(data),mimetype="application/json")
+                return json_data
+            elif uid != None  and locationId==None:
+                domain=[("create_uid","=",uid)]
+            elif uid != None  and locationId!=None:
+                domain=[("id","=",locationId),("create_uid","=",uid)]
+            locations = http.request.env['iscapop.location_model'].sudo().search_read(domain,['id','name','description','loc_type','stock_full','details_ids'])
+            for location in locations:
+                details_list = []
+                for detail_id in location.get('details_ids', []):
+                    detail = http.request.env['iscapop.item_details_model'].sudo().search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'item_id', 'donation_id', 'stock'])
+                    if detail:
+                        detail_data=detail[0]
+                        # Convert IDs to names for related fields within details
+
+                        details_list.append(detail_data)  # Append the modified detail dictionary
+
+                location['details_ids'] = details_list
+                # Convert date fields
+                for name, value in location.items():
+                    if isinstance(value, datetime.date):
+                        location[name] = value.strftime('%Y-%m-%d')
+
+            data=location
+            result = {
+                "status": 200,
+                "data": data
+                }
+            json_data = http.Response(json.dumps(result),mimetype="application/json")
+            return json_data
+        except Exception as e:
+            data={
+                "status":400,
+                "error":e
+                }
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
+    
+    #Get Categories
+    @http.route(['/iscapop/get_categories/','/iscapop/get_categories/<int:uid>','/iscapop/get_categories/<int:uid>/<int:categoryId>'],methods=["GET"], auth='public')
+    def getCategories(self,categoryId=None,uid=None, **kw):
+        try:
+            if uid == None and categoryId==None:
+                data={
+                    "status":400,
+                    "error":'User Id not given'
+                    }
+                json_data = http.Response(json.dumps(data),mimetype="application/json")
+                return json_data
+            elif uid != None  and categoryId==None:
+                domain=[("create_uid","=",uid)]
+            elif uid != None  and categoryId!=None:
+                domain=[("id","=",categoryId),("create_uid","=",uid)]
+            categories = http.request.env['iscapop.category_model'].sudo().search_read(domain,['id','name','complete_name','description','item_ids'])
+            for category in categories:
+                                # Convert date fields
+                for name, value in category.items():
+                    if isinstance(value, datetime.date):
+                        category[name] = value.strftime('%Y-%m-%d')
+
+            data=categories
+            result = {
+                "status": 200,
+                "data": data
+                }
+            json_data = http.Response(json.dumps(result),mimetype="application/json")
+            return json_data
+        except Exception as e:
+            data={
+                "status":400,
+                "error":e
+                }
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
+        
+    #Post items
+    #Post Locations
+    #Post Donations
+    
+    #Put Items
+    #Put item Change Location
+    #Put Categories
+    
+    #Delete Items
+    #Delete Categories

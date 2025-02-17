@@ -88,7 +88,7 @@
             <field name="view_mode">form</field>
         </record>
 
-        <menuitem name="Iscapop" id="iscapop.menu_root"/>
+        <menuitem name="Iscapop" id="iscapop.menu_root" />
         <!--    <menuitem name="custom-addons/iscapop" id="custom-addons/iscapop.menu_root"/>
         -->
 
