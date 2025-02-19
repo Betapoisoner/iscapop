@@ -3,15 +3,26 @@ import datetime
 from odoo import http
 import json
 
+import requests
+
 
 class Iscapop(http.Controller):
+
     #Get items
-    @http.route(['/iscapop/get_items/','/iscapop/get_items/<int:uid>','/iscapop/get_items/<int:uid>/<int:itemId>'],methods=["GET"], auth='public')
+    @http.route(['/iscapop/get_items/','/iscapop/get_items/<int:itemId>'],methods=["GET"], auth='user')
     def getItems(self,itemId=None,uid=None, **kw):
         try:
+            response = http.request.httprequest.json
+            uid = response.uid
             if uid == None and itemId==None:
                 domain=[]
+                data={
+                    "status":400,
+                    "error":'User Id not given'
+                    }
+                json_data = http.Response(json.dumps(data),mimetype="application/json")
                 return json_data
+                
             elif uid != None  and itemId==None:
                 domain=[("create_uid","=",uid)]
             elif uid != None  and itemId!=None:
@@ -50,9 +61,11 @@ class Iscapop(http.Controller):
             return json_data
     
     #Get donaciones
-    @http.route(['/iscapop/get_donations/','/iscapop/get_donations/<int:uid>','/iscapop/get_donations/<int:uid>/<int:donationId>'],methods=["GET"], auth='public')
+    @http.route(['/iscapop/get_donations/','/iscapop/get_donations/<int:donationId>'],methods=["GET"], auth='user')
     def getDonaciones(self,donationId=None,uid=None, **kw):
         try:
+            response = http.request.httprequest.json
+            uid = response.uid
             if uid == None and donationId==None:
                 data={
                     "status":400,
@@ -87,9 +100,11 @@ class Iscapop(http.Controller):
             return json_data
     
     #Get locations
-    @http.route(['/iscapop/get_locations/','/iscapop/get_locations/<int:uid>','/iscapop/get_locations/<int:uid>/<int:locationId>'],methods=["GET"], auth='public')
+    @http.route(['/iscapop/get_locations/','/iscapop/get_locations/<int:locationId>'],methods=["GET"], auth='user')
     def getLocations(self,locationId=None,uid=None, **kw):
         try:
+            response = http.request.httprequest.json
+            uid = response.uid
             if uid == None and locationId==None:
                 data={
                     "status":400,
@@ -134,9 +149,11 @@ class Iscapop(http.Controller):
             return json_data
     
     #Get Categories
-    @http.route(['/iscapop/get_categories/','/iscapop/get_categories/<int:uid>','/iscapop/get_categories/<int:uid>/<int:categoryId>'],methods=["GET"], auth='public')
+    @http.route(['/iscapop/get_categories/','/iscapop/get_categories/<int:categoryId>'],methods=["GET"], auth='user')
     def getCategories(self,categoryId=None,uid=None, **kw):
         try:
+            response = http.request.httprequest.json
+            uid = response.uid
             if uid == None and categoryId==None:
                 data={
                     "status":400,
@@ -191,6 +208,67 @@ class Iscapop(http.Controller):
             return json_data
         
     #Post items
+    @http.route(['/iscapop/add_items/'],methods=["POST"], auth='user')
+    def addProduct(self,uid=None):
+        try:
+            response = http.request.httprequest.json
+            uid = response.uid
+            if uid == None :
+                data={
+                    "status":400,
+                    "error":'User Id not given'
+                    }
+                json_data = http.Response(json.dumps(data),mimetype="application/json")
+                return json_data
+                
+            item = http.request.httprequest.json
+            response['uid']=uid
+            
+            result= http.request.env['iscapop.item_model'].create(item)
+            data={
+                    "status":201,
+                    "data":result
+                    }
+            return http.Response(json.dumps(data),mimetype="application/json")
+        except Exception as e:
+            data={
+                "status":400,
+                "error":e
+                }
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
+    
+    @http.route(['/iscapop/add_items_details/'],methods=["POST"], auth='user')
+    def addProduct(self,uid=None):
+        try:
+            response = http.request.httprequest.json
+            uid = response.uid
+            if uid == None :
+                data={
+                    "status":400,
+                    "error":'User Id not given'
+                    }
+                json_data = http.Response(json.dumps(data),mimetype="application/json")
+                return json_data
+                
+            item_details = http.request.httprequest.json
+            response['uid']=uid
+            
+            result= http.request.env['iscapop.item_model'].create(item_details)
+            data={
+                    "status":201,
+                    "data":result
+                    }
+            return http.Response(json.dumps(data),mimetype="application/json")
+        except Exception as e:
+            data={
+                "status":400,
+                "error":e
+                }
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
+        
+        
     #Post Locations
     #Post Donations
     
