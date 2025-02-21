@@ -41,7 +41,7 @@ class LocationController(http.Controller):
                     if isinstance(value, datetime.date):
                         location[name] = value.strftime('%Y-%m-%d')
 
-            data=location
+            data=locations
             result = {
                 "status": 200,
                 "data": data
@@ -57,7 +57,7 @@ class LocationController(http.Controller):
             return json_data
     
     #Post Locations
-    @http.route(['/iscapop/add_location/'],methods=["POST"], auth='user')
+    @http.route(['/iscapop/add_location/'],methods=["POST"], auth='user',type="json")
     def addLocation(self,):
         try:
             

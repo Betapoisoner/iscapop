@@ -56,7 +56,7 @@ class CategoryController(http.Controller):
             return json_data
         
     #Post Categories
-    @http.route(['/iscapop/add_category/'],methods=["POST"], auth='user')
+    @http.route(['/iscapop/add_category/'],methods=["POST"], auth='user',type="json")
     def addCategory(self,):
         try:
             uid = request.env.user.id
@@ -86,7 +86,7 @@ class CategoryController(http.Controller):
             return json_data
         
     #Put Categories
-    @http.route('/iscapop/upd_location/<int:locationId>',type="json",methods=["PUT"], auth='user')
+    @http.route('/iscapop/upd_location/<int:locationId>',methods=["PUT"], auth='user',type="json")
     def updLocation(self,categoryId=None, **kw):
         try:
             response = http.request.httprequest.json
@@ -140,7 +140,7 @@ class CategoryController(http.Controller):
             return json_data
     
     #Delete Categories
-    @http.route('/iscapop/del_category/',type="json",methods=["DELETE"],auth='public')
+    @http.route('/iscapop/del_category/',methods=["DELETE"],auth='user',type="json")
     def delCategory(self,categoryId=None, **kw):
         try:
             response = http.request.httprequest.json

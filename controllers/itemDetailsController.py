@@ -10,7 +10,7 @@ import requests
 class ItemDetailController(http.Controller):
     
     #Post Item Details
-    @http.route(['/iscapop/add_item_details/'],methods=["POST"], auth='user')
+    @http.route(['/iscapop/add_item_details/'],methods=["POST"], auth='user',type="json")
     def addDetails(self,):
         try:
             uid = request.env.user.id
@@ -40,7 +40,7 @@ class ItemDetailController(http.Controller):
             return json_data
         
     #Put Item Details
-    @http.route('/iscapop/upd_item_details/<int:itemId>',type="json",methods=["PUT"], auth='user')
+    @http.route('/iscapop/upd_item_details/<int:itemId>',methods=["PUT"], auth='user',type="json")
     def updItemDetails(self,itemId=None, **kw):
         try:
             response =         response = http.request.httprequest.json
@@ -93,7 +93,7 @@ class ItemDetailController(http.Controller):
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
     #Delete Items Details
-    @http.route('/iscapop/del_item_details/',type="json",methods=["DELETE"],auth='public')
+    @http.route('/iscapop/del_item_details/',methods=["DELETE"],auth='user',type="json")
     def delItemDetails(self,itemId=None, **kw):
         try:
             response = http.request.httprequest.json

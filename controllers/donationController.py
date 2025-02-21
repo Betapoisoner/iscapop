@@ -46,7 +46,7 @@ class DonationController(http.Controller):
             return json_data
         
     #Post Donations
-    @http.route(['/iscapop/add_donation/'],methods=["POST"], auth='user')
+    @http.route(['/iscapop/add_donation/'],methods=["POST"], auth='user',type="json")
     def addLocation(self,):
         try:
             uid = request.env.user.id

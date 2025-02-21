@@ -58,7 +58,7 @@ class ItemController(http.Controller):
             return json_data
         
         #Post items
-    @http.route(['/iscapop/add_item/'],methods=["POST"], auth='user')
+    @http.route(['/iscapop/add_item/'],methods=["POST"], auth='user',type="json")
     def additem(self):
         try:
             uid = request.env.user.id
@@ -76,7 +76,7 @@ class ItemController(http.Controller):
             result= http.request.env['iscapop.item_model'].create(item)
             data={
                     "status":201,
-                    "data":result
+                    "data":result.id
                     }
             return http.Response(json.dumps(data),mimetype="application/json")
         except Exception as e:
@@ -116,12 +116,12 @@ class ItemController(http.Controller):
             domain=[("id","=",itemId),("create_uid","=",uid)]
             item= http.request.env['iscapop.item_model'].search(domain)
             if item:
+                response = http.request.httprequest.json
                 item.write(response)
                 result={
                     "status":201,
-                    "data":{
-                            item,
-                            }
+                    "data":  item.id,
+                            
                     }
                 json_data = http.Response(json.dumps(result),mimetype="application/json")
                 return json_data
@@ -141,10 +141,10 @@ class ItemController(http.Controller):
             return json_data
 
 #Delete Items
-    @http.route('/iscapop/del_item/',type="json",methods=["DELETE"],auth='public')
+    @http.route('/iscapop/del_item/',type="json",methods=["DELETE"],auth='user')
     def delClients(self,itemId=None, **kw):
         try:
-            
+            response = http.request.httprequest.json
             uid = request.env.user.id
             itemId=response['id']
             if uid == None :
