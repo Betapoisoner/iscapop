@@ -86,7 +86,7 @@ class CategoryController(http.Controller):
             return json_data
         
     #Put Categories
-    @http.route('/iscapop/upd_location/<int:locationId>',methods=["PUT"], auth='user',type="json")
+    @http.route('/iscapop/upd_category/<int:categoryId>',methods=["PUT"], auth='user',type="json")
     def updLocation(self,categoryId=None, **kw):
         try:
             response = http.request.httprequest.json
@@ -118,9 +118,9 @@ class CategoryController(http.Controller):
                 category.write(response)
                 result={
                     "status":201,
-                    "data":{
+                    "data":
                             category.id,
-                            }
+                            
                     }
                 json_data = http.Response(json.dumps(result),mimetype="application/json")
                 return json_data

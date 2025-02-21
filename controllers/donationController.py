@@ -64,7 +64,7 @@ class DonationController(http.Controller):
             result= http.request.env['iscapop.donation_model'].create(donation)
             data={
                     "status":201,
-                    "data":result
+                    "data":result.id
                     }
             return http.Response(json.dumps(data),mimetype="application/json")
         except Exception as e:
