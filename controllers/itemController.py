@@ -1,17 +1,16 @@
 import datetime
 from odoo import http
+from odoo.http import request
 import json
 
-import requests
 
 
 class ItemController(http.Controller):
     #Get items
-    @http.route(['/iscapop/get_items/','/iscapop/get_items/<int:itemId>'],methods=["GET"], auth='user')
-    def getItems(self,itemId=None,uid=None, **kw):
+    @http.route(['/iscapop/get_items/','/iscapop/get_items/<int:itemId>'], auth='user',type="http")
+    def getItems(self,itemId=None, **kw):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None and itemId==None:
                 domain=[]
                 data={
@@ -60,10 +59,9 @@ class ItemController(http.Controller):
         
         #Post items
     @http.route(['/iscapop/add_item/'],methods=["POST"], auth='user')
-    def additem(self,uid=None):
+    def additem(self):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None :
                 data={
                     "status":400,
@@ -73,7 +71,7 @@ class ItemController(http.Controller):
                 return json_data
                 
             item = http.request.httprequest.json
-            response['uid']=uid
+            
             
             result= http.request.env['iscapop.item_model'].create(item)
             data={
@@ -91,10 +89,9 @@ class ItemController(http.Controller):
     
     #Put Items
     @http.route('/iscapop/upd_item/<int:itemId>',type="json",methods=["PUT"], auth='user')
-    def updItem(self,uid=None,itemId=None, **kw):
+    def updItem(self,itemId=None, **kw):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None :
                 data={
                     "status":400,
@@ -145,11 +142,10 @@ class ItemController(http.Controller):
 
 #Delete Items
     @http.route('/iscapop/del_item/',type="json",methods=["DELETE"],auth='public')
-    def delClients(self,uid=None,itemId=None, **kw):
+    def delClients(self,itemId=None, **kw):
         try:
             
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             itemId=response['id']
             if uid == None :
                 data={

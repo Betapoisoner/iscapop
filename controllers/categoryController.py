@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from odoo import http
+from odoo.http import request
 import json
 
 import requests
@@ -9,10 +10,9 @@ import requests
 class CategoryController(http.Controller):
     #Get Categories
     @http.route(['/iscapop/get_categories/','/iscapop/get_categories/<int:categoryId>'],methods=["GET"], auth='user')
-    def getCategories(self,categoryId=None,uid=None, **kw):
+    def getCategories(self,categoryId=None, **kw):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None and categoryId==None:
                 data={
                     "status":400,
@@ -24,33 +24,22 @@ class CategoryController(http.Controller):
                 domain=[("create_uid","=",uid)]
             elif uid != None  and categoryId!=None:
                 domain=[("id","=",categoryId),("create_uid","=",uid)]
-            categories = http.request.env['iscapop.category_model'].search_read(domain,['id','name','complete_name','description','category_ids'])
+            categories = http.request.env['iscapop.category_model'].search_read(domain,['id','name','complete_name','description','category_son_ids','item_ids'])
             for category in categories:
                 categorys_list=[]
-                for category_id in category['category_ids']:
+                for category_id in category['category_son_ids']:
                     category = http.request.env['iscapop.category_model'].search_read([("id", "=", category_id)], ['id','name','description','stock_full','details_ids'])
                     if category:
                         category_data=category[0]
-                        details_list = []
-                        for detail_id in category_data.get('details_ids', []):
-                            detail = http.request.env['iscapop.category_details_model'].search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
-                            if detail:
-                                detail_data=detail[0]
-                            # Convert IDs to names for related fields within details
-
-                            details_list.append(detail_data)  # Append the modified detail dictionary
-
-                        category_data['details_ids'] = details_list  # Assign the list of details back to the category
                         categorys_list.append(category_data)  # Append the modified detail dictionary
                 
                 category['category_ids'] = categorys_list  # Assign the list of details back to the category
-
                 
                 # Convert date fields
-                for name, value in category.categorys():
+                for name, value in category.items():
                     if isinstance(value, datetime.date):
                         category[name] = value.strftime('%Y-%m-%d')
-
+                
             data=categories
             result = {
                 "status": 200,
@@ -68,10 +57,9 @@ class CategoryController(http.Controller):
         
     #Post Categories
     @http.route(['/iscapop/add_category/'],methods=["POST"], auth='user')
-    def addCategory(self,uid=None):
+    def addCategory(self,):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None :
                 data={
                     "status":400,
@@ -81,7 +69,7 @@ class CategoryController(http.Controller):
                 return json_data
                 
             category = http.request.httprequest.json
-            response['uid']=uid
+            
             
             result= http.request.env['iscapop.category_model'].create(category)
             data={
@@ -99,10 +87,10 @@ class CategoryController(http.Controller):
         
     #Put Categories
     @http.route('/iscapop/upd_location/<int:locationId>',type="json",methods=["PUT"], auth='user')
-    def updLocation(self,uid=None,categoryId=None, **kw):
+    def updLocation(self,categoryId=None, **kw):
         try:
             response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None :
                 data={
                     "status":400,
@@ -125,7 +113,7 @@ class CategoryController(http.Controller):
                 json_data = http.Response(json.dumps(data),mimetype="application/json")
                 return json_data
             domain=[("id","=",categoryId),("create_uid","=",uid)]
-            category= http.request.env['iscapop.category_details_model'].search(domain)
+            category= http.request.env['iscapop.category_model'].search(domain)
             if category:
                 category.write(response)
                 result={
@@ -153,11 +141,10 @@ class CategoryController(http.Controller):
     
     #Delete Categories
     @http.route('/iscapop/del_category/',type="json",methods=["DELETE"],auth='public')
-    def delCategory(self,uid=None,categoryId=None, **kw):
+    def delCategory(self,categoryId=None, **kw):
         try:
-            
             response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             categoryId=response['id']
             if uid == None :
                 data={

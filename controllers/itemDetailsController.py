@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from odoo import http
+from odoo.http import request
 import json
 
 import requests
@@ -10,10 +11,9 @@ class ItemDetailController(http.Controller):
     
     #Post Item Details
     @http.route(['/iscapop/add_item_details/'],methods=["POST"], auth='user')
-    def addDetails(self,uid=None):
+    def addDetails(self,):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None :
                 data={
                     "status":400,
@@ -23,7 +23,7 @@ class ItemDetailController(http.Controller):
                 return json_data
                 
             item_details = http.request.httprequest.json
-            response['uid']=uid
+            
             
             result= http.request.env['iscapop.item_model'].create(item_details)
             data={
@@ -40,11 +40,11 @@ class ItemDetailController(http.Controller):
             return json_data
         
     #Put Item Details
-    @http.route('/iscapop/upd_item/<int:itemId>',type="json",methods=["PUT"], auth='user')
-    def updItemDetails(self,uid=None,itemId=None, **kw):
+    @http.route('/iscapop/upd_item_details/<int:itemId>',type="json",methods=["PUT"], auth='user')
+    def updItemDetails(self,itemId=None, **kw):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            response =         response = http.request.httprequest.json
+            uid = request.env.user.id
             if uid == None :
                 data={
                     "status":400,
@@ -94,11 +94,10 @@ class ItemDetailController(http.Controller):
             return json_data
     #Delete Items Details
     @http.route('/iscapop/del_item_details/',type="json",methods=["DELETE"],auth='public')
-    def delItemDetails(self,uid=None,itemId=None, **kw):
+    def delItemDetails(self,itemId=None, **kw):
         try:
-            
             response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             itemId=response['id']
             if uid == None :
                 data={

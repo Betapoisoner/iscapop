@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from odoo import http
+from odoo.http import request
 import json
 
 import requests
@@ -9,10 +10,9 @@ import requests
 class LocationController(http.Controller):
     #Get locations
     @http.route(['/iscapop/get_locations/','/iscapop/get_locations/<int:locationId>'],methods=["GET"], auth='user')
-    def getLocations(self,locationId=None,uid=None, **kw):
+    def getLocations(self,locationId=None,**kw):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            uid = request.env.user.id
             if uid == None and locationId==None:
                 data={
                     "status":400,
@@ -28,7 +28,7 @@ class LocationController(http.Controller):
             for location in locations:
                 details_list = []
                 for detail_id in location.get('details_ids', []):
-                    detail = http.request.env['iscapop.location_details_model'].search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
+                    detail = http.request.env['iscapop.item_details_model'].search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
                     if detail:
                         detail_data=detail[0]
                         # Convert IDs to names for related fields within details
@@ -37,7 +37,7 @@ class LocationController(http.Controller):
 
                 location['details_ids'] = details_list
                 # Convert date fields
-                for name, value in location.locations():
+                for name, value in location.items():
                     if isinstance(value, datetime.date):
                         location[name] = value.strftime('%Y-%m-%d')
 
@@ -58,10 +58,10 @@ class LocationController(http.Controller):
     
     #Post Locations
     @http.route(['/iscapop/add_location/'],methods=["POST"], auth='user')
-    def addLocation(self,uid=None):
+    def addLocation(self,):
         try:
-            response = http.request.httprequest.json
-            uid = response.uid
+            
+            uid = request.env.user.id
             if uid == None :
                 data={
                     "status":400,
@@ -71,8 +71,6 @@ class LocationController(http.Controller):
                 return json_data
                 
             location = http.request.httprequest.json
-            response['uid']=uid
-            
             result= http.request.env['iscapop.location_model'].create(location)
             data={
                     "status":201,
