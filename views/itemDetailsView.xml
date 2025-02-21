@@ -26,12 +26,21 @@
         </record>
 
         <record model="ir.actions.act_window" id="iscapop.action_window_item_details_graph">
+            <field name="domain">[('create_uid', '=', uid)]</field>
             <field name="name">Item Details Graph</field>
             <field name="res_model">iscapop.item_details_model</field>
             <field name="view_mode">graph</field>
         </record>
 
+        <record model="ir.actions.act_window" id="iscapop.action_window_item_details_form">
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="name">Item Details Form</field>
+            <field name="res_model">iscapop.item_details_model</field>
+            <field name="view_mode">form</field>
+        </record>
+
         <record model="ir.actions.act_window" id="iscapop.action_window_item_details_pivot">
+            <field name="domain">[('create_uid', '=', uid)]</field>
             <field name="name">Item Details Pivot</field>
             <field name="res_model">iscapop.item_details_model</field>
             <field name="view_mode">pivot</field>

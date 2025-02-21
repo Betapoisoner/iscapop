@@ -22,7 +22,7 @@ class donationModel(models.Model):
     
     donator = fields.Many2one('res.users', 'Donator', default=lambda self: self.env.user,readonly=True)
     
-    receiver =  fields.Many2one('res.users', 'Donator',readonly=True)
+    receiver =  fields.Many2one('res.users', 'Reciever',readonly=True)
 
     @api.depends('item_id')
     def _compute_name(self):

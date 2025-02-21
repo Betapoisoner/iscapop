@@ -3,3 +3,4 @@ from odoo import http
 
 
 class Iscapop(http.Controller):
+    a=0

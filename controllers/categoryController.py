@@ -66,7 +66,7 @@ class CategoryController(http.Controller):
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
         
-        #Post Categories
+    #Post Categories
     @http.route(['/iscapop/add_category/'],methods=["POST"], auth='user')
     def addCategory(self,uid=None):
         try:
