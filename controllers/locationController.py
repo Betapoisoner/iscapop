@@ -24,11 +24,11 @@ class LocationController(http.Controller):
                 domain=[("create_uid","=",uid)]
             elif uid != None  and locationId!=None:
                 domain=[("id","=",locationId),("create_uid","=",uid)]
-            locations = http.request.env['iscapop.location_model'].sudo().search_read(domain,['id','name','description','loc_type','stock_full','details_ids'])
+            locations = http.request.env['iscapop.location_model'].search_read(domain,['id','name','description','loc_type','stock_full','details_ids'])
             for location in locations:
                 details_list = []
                 for detail_id in location.get('details_ids', []):
-                    detail = http.request.env['iscapop.location_details_model'].sudo().search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
+                    detail = http.request.env['iscapop.location_details_model'].search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
                     if detail:
                         detail_data=detail[0]
                         # Convert IDs to names for related fields within details
@@ -51,7 +51,7 @@ class LocationController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
@@ -82,7 +82,7 @@ class LocationController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data

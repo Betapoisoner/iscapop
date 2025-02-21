@@ -24,16 +24,16 @@ class CategoryController(http.Controller):
                 domain=[("create_uid","=",uid)]
             elif uid != None  and categoryId!=None:
                 domain=[("id","=",categoryId),("create_uid","=",uid)]
-            categories = http.request.env['iscapop.category_model'].sudo().search_read(domain,['id','name','complete_name','description','category_ids'])
+            categories = http.request.env['iscapop.category_model'].search_read(domain,['id','name','complete_name','description','category_ids'])
             for category in categories:
                 categorys_list=[]
                 for category_id in category['category_ids']:
-                    category = http.request.env['iscapop.category_model'].sudo().search_read([("id", "=", category_id)], ['id','name','description','stock_full','details_ids'])
+                    category = http.request.env['iscapop.category_model'].search_read([("id", "=", category_id)], ['id','name','description','stock_full','details_ids'])
                     if category:
                         category_data=category[0]
                         details_list = []
                         for detail_id in category_data.get('details_ids', []):
-                            detail = http.request.env['iscapop.category_details_model'].sudo().search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
+                            detail = http.request.env['iscapop.category_details_model'].search_read([("id", "=", detail_id)], ['id', 'condition', 'state', 'reserved', 'location_id', 'donation_id', 'stock'])
                             if detail:
                                 detail_data=detail[0]
                             # Convert IDs to names for related fields within details
@@ -61,7 +61,7 @@ class CategoryController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
@@ -92,7 +92,7 @@ class CategoryController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
@@ -125,7 +125,7 @@ class CategoryController(http.Controller):
                 json_data = http.Response(json.dumps(data),mimetype="application/json")
                 return json_data
             domain=[("id","=",categoryId),("create_uid","=",uid)]
-            category= http.request.env['iscapop.category_details_model'].sudo().search(domain)
+            category= http.request.env['iscapop.category_details_model'].search(domain)
             if category:
                 category.write(response)
                 result={
@@ -146,7 +146,7 @@ class CategoryController(http.Controller):
         except Exception as e:
             data={
                 "status":500,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
@@ -180,7 +180,7 @@ class CategoryController(http.Controller):
                     }
             domain=[("id","=",categoryId),("create_uid","=",uid)]
 
-            if http.request.env['iscapop.category_model'].sudo().search(domain).unlink():
+            if http.request.env['iscapop.category_model'].search(domain).unlink():
                 data={
                     "status":201,
                     "data":categoryId
@@ -195,7 +195,7 @@ class CategoryController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data

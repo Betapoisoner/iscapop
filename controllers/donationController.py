@@ -23,7 +23,7 @@ class DonationController(http.Controller):
                 domain=[("create_uid","=",uid)]
             elif uid != None  and donationId!=None:
                 domain=[("id","=",donationId),("create_uid","=",uid)]
-            donations = http.request.env['iscapop.donation_model'].sudo().search_read(domain,['id','name','donation_id','donator','receiver'])
+            donations = http.request.env['iscapop.donation_model'].search_read(domain,['id','name','donation_id','donator','receiver'])
             for donation in donations:
                 # Convert date fields
                 for name, value in donation.donations():
@@ -40,7 +40,7 @@ class DonationController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
@@ -71,7 +71,7 @@ class DonationController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data

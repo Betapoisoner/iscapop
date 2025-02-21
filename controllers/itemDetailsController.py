@@ -34,7 +34,7 @@ class ItemDetailController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
@@ -67,7 +67,7 @@ class ItemDetailController(http.Controller):
                 json_data = http.Response(json.dumps(data),mimetype="application/json")
                 return json_data
             domain=[("id","=",itemId),("create_uid","=",uid)]
-            item= http.request.env['iscapop.item_details_model'].sudo().search(domain)
+            item= http.request.env['iscapop.item_details_model'].search(domain)
             if item:
                 item.write(response)
                 result={
@@ -88,7 +88,7 @@ class ItemDetailController(http.Controller):
         except Exception as e:
             data={
                 "status":500,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
@@ -121,7 +121,7 @@ class ItemDetailController(http.Controller):
                     }
             domain=[("id","=",itemId),("create_uid","=",uid)]
 
-            if http.request.env['iscapop.item_details_model'].sudo().search(domain).unlink():
+            if http.request.env['iscapop.item_details_model'].search(domain).unlink():
                 data={
                     "status":201,
                     "data":itemId
@@ -136,7 +136,7 @@ class ItemDetailController(http.Controller):
         except Exception as e:
             data={
                 "status":400,
-                "error":e
+                "error":"Exception"
                 }
             json_data = http.Response(json.dumps(data),mimetype="application/json")
             return json_data
