@@ -63,8 +63,8 @@ class CategoryController(http.Controller):
                 "status":400,
                 "error":e
                 }
-            json_data = http.Response(json.dumps(data),mimetype="application/json")
-            return json_data
+           
+            return data
         
     #Post Categories
     @http.route(['/iscapop/add_category/'],methods=["POST"], auth='user')
@@ -94,8 +94,8 @@ class CategoryController(http.Controller):
                 "status":400,
                 "error":e
                 }
-            json_data = http.Response(json.dumps(data),mimetype="application/json")
-            return json_data
+           
+            return data
         
     #Put Categories
     @http.route('/iscapop/upd_location/<int:locationId>',type="json",methods=["PUT"], auth='user')
@@ -197,5 +197,5 @@ class CategoryController(http.Controller):
                 "status":400,
                 "error":e
                 }
-            json_data = http.Response(json.dumps(data),mimetype="application/json")
-            return json_data
+           
+            return data

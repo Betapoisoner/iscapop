@@ -42,8 +42,8 @@ class DonationController(http.Controller):
                 "status":400,
                 "error":e
                 }
-            json_data = http.Response(json.dumps(data),mimetype="application/json")
-            return json_data
+           
+            return data
         
     #Post Donations
     @http.route(['/iscapop/add_donation/'],methods=["POST"], auth='user')
@@ -73,5 +73,5 @@ class DonationController(http.Controller):
                 "status":400,
                 "error":e
                 }
-            json_data = http.Response(json.dumps(data),mimetype="application/json")
-            return json_data
+           
+            return data

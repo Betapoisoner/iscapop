@@ -36,8 +36,8 @@ class ItemDetailController(http.Controller):
                 "status":400,
                 "error":e
                 }
-            json_data = http.Response(json.dumps(data),mimetype="application/json")
-            return json_data
+           
+            return data
         
     #Put Item Details
     @http.route('/iscapop/upd_item/<int:itemId>',type="json",methods=["PUT"], auth='user')
@@ -138,5 +138,5 @@ class ItemDetailController(http.Controller):
                 "status":400,
                 "error":e
                 }
-            json_data = http.Response(json.dumps(data),mimetype="application/json")
-            return json_data
+           
+            return data
