@@ -74,7 +74,7 @@ class LocationController(http.Controller):
             result= http.request.env['iscapop.location_model'].create(location)
             data={
                     "status":201,
-                    "data":result
+                    "data":result.id
                     }
             return http.Response(json.dumps(data),mimetype="application/json")
         except Exception as e:

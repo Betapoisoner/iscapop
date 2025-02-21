@@ -74,7 +74,7 @@ class CategoryController(http.Controller):
             result= http.request.env['iscapop.category_model'].create(category)
             data={
                     "status":201,
-                    "data":result
+                    "data":result.id
                     }
             return http.Response(json.dumps(data),mimetype="application/json")
         except Exception as e:
@@ -119,7 +119,7 @@ class CategoryController(http.Controller):
                 result={
                     "status":201,
                     "data":{
-                            category,
+                            category.id,
                             }
                     }
                 json_data = http.Response(json.dumps(result),mimetype="application/json")
