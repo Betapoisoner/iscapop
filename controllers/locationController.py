@@ -53,8 +53,8 @@ class LocationController(http.Controller):
                 "status":400,
                 "error":e
                 }
-           
-            return data
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
     
     #Post Locations
     @http.route(['/iscapop/add_location/'],methods=["POST"], auth='user')
@@ -84,5 +84,5 @@ class LocationController(http.Controller):
                 "status":400,
                 "error":e
                 }
-           
-            return data
+            json_data = http.Response(json.dumps(data),mimetype="application/json")
+            return json_data
