@@ -25,10 +25,10 @@ class ItemDetailController(http.Controller):
             item_details = http.request.httprequest.json
             
             
-            result= http.request.env['iscapop.item_model'].create(item_details)
+            result= http.request.env['iscapop.item_details_model'].create(item_details)
             data={
                     "status":201,
-                    "data":result
+                    "data":result.id
                     }
             return http.Response(json.dumps(data),mimetype="application/json")
         except Exception as e:
@@ -72,9 +72,8 @@ class ItemDetailController(http.Controller):
                 item.write(response)
                 result={
                     "status":201,
-                    "data":{
-                            item,
-                            }
+                    "data": item
+                            
                     }
                 json_data = http.Response(json.dumps(result),mimetype="application/json")
                 return json_data
