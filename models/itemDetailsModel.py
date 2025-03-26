@@ -7,7 +7,11 @@ class itemDetailsModel(models.Model):
 
     
     condition = fields.Selection(
-        selection=[('new','New'),('good', 'Good'), ('bad', 'Bad')],string="Condition",required=True,default='good'
+        selection=[('new','New'),('good', 'Good'), ('bad', 'Bad')],
+        string="Condition",
+        required=True,
+        default='good',
+        tracking=True  # Changed from track_visibility='onchange'
     )
     
     state = fields.Selection(
@@ -16,7 +20,8 @@ class itemDetailsModel(models.Model):
         required=True,
         default='in_class',
         compute='_compute_state',
-        store=True
+        store=True,
+        tracking=True  # Changed from track_visibility='onchange'
     )
     
     
@@ -50,7 +55,19 @@ class itemDetailsModel(models.Model):
     warranty = fields.Binary(string='Warranty',help="Here you out any warranty related files", attachment=True,required=True)
     
     additional_files=fields.Binary(string='Additional files', help="Here you put any file thet you think it's necessary",attachment=True)
-    
+        
+        
+    def action_mark_reserved(self):
+        """Mark item as reserved"""
+        for record in self:
+            if record.state == 'in_class' and not record.reserved:
+                record.reserved = True
+
+    def action_unreserve(self):
+        """Remove reservation"""
+        for record in self:
+            if record.reserved:
+                record.reserved = False    
     @api.depends('location_id')
     def _compute_state(self):
         for record in self:
@@ -62,3 +79,4 @@ class itemDetailsModel(models.Model):
                 record.state = 'donating'
             else:
                 record.state = 'in_class'
+

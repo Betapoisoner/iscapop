@@ -29,12 +29,15 @@ class locationModel(models.Model):
         string='Items',
         comodel_name='iscapop.item_details_model',
         inverse_name='location_id',
+        
+        
+        
     )
             
     @api.depends('details_ids')
     def _compute_stock_total(self):
-        temp=0
         for record in self:
+            temp=0
             for details in record.details_ids:
                 if details.condition!='bad' :
                     temp+=details.stock

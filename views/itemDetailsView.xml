@@ -1,5 +1,46 @@
 <odoo>
     <data>
+        <record id="iscapop.form_item_details" model="ir.ui.view">
+            <field name="name">iscapop.item_details_model.form</field>
+            <field name="model">iscapop.item_details_model</field>
+            <field name="arch" type="xml">
+                <form string="Item Details">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="item_id" widget="many2one" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="condition" widget="radio"/>
+                                <field name="state" readonly="1"/>
+                                <field name="reserved" widget="boolean_checkbox"/>
+                            </group>
+                            <group>
+                                <field name="location_id" widget="many2one" domain="[('create_uid', '=', uid)]" />
+                                <field name="donation_id" widget="many2one" invisible="state != 'donating'"/>
+                                <field name="stock" widget="integer"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Attachments">
+                                <group>
+                                    <field name="warranty" widget="binary" filename="warranty_filename" string="Warranty File"/>
+                                    <field name="additional_files" widget="binary" filename="additional_files_filename" string="Additional Files"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <header>
+                        <button name="action_mark_reserved" type="object" string="Reserve" class="oe_highlight" invisible="reserved or state != 'in_class'"/>
+
+                        <button name="action_unreserve" type="object" string="Unreserve" invisible="not reserved"/>
+
+                        <field name="state" widget="statusbar" clickable="1" statusbar_visible="stored,in_class,donating,retired"/>
+                    </header>
+                </form>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="iscapop.graph_item_details">
             <field name="name">Item Graph</field>
             <field name="model">iscapop.item_details_model</field>

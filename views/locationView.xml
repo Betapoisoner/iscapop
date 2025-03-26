@@ -58,7 +58,7 @@
                             <group name="RightSide" string="">
                                 <notebook colspan="2">
                                     <page name="items" string="Items">
-                                        <field name="details_ids">
+                                        <field name="details_ids" domain="[('create_uid','=',uid,)]">
                                             <tree>
                                                 <field name="item_id" />
                                                 <field name="condition"/>
