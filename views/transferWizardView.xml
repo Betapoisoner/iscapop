@@ -1,0 +1,92 @@
+<odoo>
+    <data>
+        <record id="view_transfer_wizard_form" model="ir.ui.view">
+            <field name="name">iscapop.transfer_wizard.form</field>
+            <field name="model">iscapop.transfer_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!-- Hidden state field -->
+                        <field name="state" invisible="1"/>
+
+                        <!-- Step 1: Source Selection -->
+                        <div invisible="state != 'select_source'">
+                            <div class="oe_title">
+                                <h2>Step 1: Select Source</h2>
+                            </div>
+                            <group>
+                                <field name="item_id" readonly="1"/>
+                                <field name="condition"/>
+                                <field name="source_location_id"/>
+                                <field name="available_stock" readonly="1"/>
+                            </group>
+                            <footer invisible="state != 'select_source'">
+                                <button name="action_next" string="Next" type="object" class="oe_highlight"/>
+                                <button string="Cancel" class="btn-secondary" special="cancel"/>
+                            </footer>
+                        </div>
+
+                        <!-- Step 2: Destination Selection -->
+                        <div invisible="state != 'select_destination'">
+                            <div class="oe_title">
+                                <h2>Step 2: Select Destination</h2>
+                                <div class="alert alert-info">
+                                    Transferring <field name="condition"/>
+ items from <field name="source_location_id"/>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="source_location_id" invisible="1"/>
+                            <field name="destination_location_id"/>
+                            <field name="quantity"/>
+                            <table class="table" style="width: 500%; border-collapse: collapse;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid #000; text-align: center; width: 50%;">Source Location</th>
+                                        <th style="border: 1px solid #000; text-align: center; width: 50%;">Destination Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #000; text-align: center; padding: 8px;">
+                                            <div>
+                                                <p style="display: inline-block;">Current:</p>
+                                                <field name="source_current_stock" readonly="1" style="display: inline-block;"/>
+                                            </div>
+                                            <div>
+                                                <p style="display: inline-block;">After Transfer:</p>
+                                                <field name="projected_source_stock" readonly="1" style="display: inline-block;"/>
+                                            </div>
+                                        </td>
+                                        <td style="border: 1px solid #000; text-align: center; padding: 8px;">
+                                            <div>
+                                                <p style="display: inline-block;">Current:</p>
+                                                <field name="destination_current_stock" readonly="1" style="display: inline-block;"/>
+                                            </div>
+                                            <div>
+                                                <p style="display: inline-block;">After Transfer:</p>
+                                                <field name="projected_destination_stock" readonly="1" style="display: inline-block;"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border: 1px solid #000; text-align: center; padding: 8px;">
+                                            <p style="display: inline-block; margin-right: 8px;">Transfering:</p>
+                                            <field name="quantity" style="display: inline-block;"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </group>
+                        <footer invisible="state != 'select_destination'">
+                            <button name="action_back" string="Back" type="object" class="btn-secondary"/>
+                            <button name="action_transfer" string="Confirm Transfer" type="object" class="oe_highlight"/>
+                        </footer>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</data>
+</odoo>

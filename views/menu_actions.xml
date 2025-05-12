@@ -1,0 +1,73 @@
+<odoo>
+    <data>
+        <!-- Actions -->
+        <record model="ir.actions.act_window" id="action_window_item_list">
+            <field name="name">Items</field>
+            <field name="res_model">iscapop.item_model</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_window_location_list">
+            <field name="name">Locations</field>
+            <field name="res_model">iscapop.location_model</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_window_donation_list">
+            <field name="name">Donations</field>
+            <field name="res_model">iscapop.donation_model</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_window_item_details_pivot">
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="name">Item Details Pivot</field>
+            <field name="res_model">iscapop.item_details_model</field>
+            <field name="view_mode">pivot</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_window_item_details_graph">
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="name">Item Details Graph</field>
+            <field name="res_model">iscapop.item_details_model</field>
+            <field name="view_mode">graph</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_window_category_list">
+            <field name="name">Categories</field>
+            <field name="res_model">iscapop.category_model</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+        </record>
+
+        <record id="action_print_donations" model="ir.actions.report">
+            <field name="name">Donated Report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">iscapop.donation_model</field>
+            <field name="report_name">iscapop.report_donation_completion</field>
+            
+            <field name="binding_model_id" ref="iscapop.model_iscapop_donation_model" />
+            
+        </record>
+
+        <!-- Menu Structure -->
+        <menuitem name="ISCA Pop" id="menu_root" web_icon="iscapop,static/description/icon.png" sequence="10"/>
+
+        <menuitem name="Inventory" id="menu_inventory" parent="menu_root" sequence="10">
+
+            <menuitem name="Items" id="menu_items" action="action_window_item_list" sequence="10"/>
+            <menuitem name="Categories" id="menu_categories" action="action_window_category_list" sequence="15"/>
+            <menuitem name="Locations" id="menu_locations" action="action_window_location_list" sequence="20"/>
+            <menuitem name="Donations" id="menu_donations" action="action_window_donation_list" sequence="30"/>
+        </menuitem>
+
+        <menuitem name="Reporting" id="menu_reporting" parent="menu_root" sequence="20">
+            <menuitem name="Item Analytics" id="menu_item_analytics" sequence="10">
+                <menuitem name="Pivot" id="menu_item_analytics_pivot_view" action="action_window_item_details_pivot" sequence="10"/>
+                <menuitem name="Graph" id="menu_item_analytics_graph_view" action="action_window_item_details_graph" sequence="20"/>
+            </menuitem>
+        </menuitem>
+    </data>
+</odoo>

@@ -1,0 +1,90 @@
+<odoo>
+    <data>
+        <!-- Category Form View -->
+        <record id="view_category_form" model="ir.ui.view">
+            <field name="name">iscapop.category_model.form</field>
+            <field name="model">iscapop.category_model</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="complete_name" readonly="1"/>
+                                <field name="category_parent_id" widget="many2one"/>
+                            </group>
+                            <group>
+                                <field name="description" nolabel="1"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Subcategories">
+                                <field name="category_son_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="complete_name"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Items">
+                                <field name="item_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="stock_full"/>
+                                        <field name="details_ids" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Category Tree View -->
+        <record id="view_category_tree" model="ir.ui.view">
+            <field name="name">iscapop.category_model.tree</field>
+            <field name="model">iscapop.category_model</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="complete_name"/>
+                    <field name="category_parent_id"/>
+                    <field name="item_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Category Kanban View -->
+        <record id="view_category_kanban" model="ir.ui.view">
+            <field name="name">iscapop.category_model.kanban</field>
+            <field name="model">iscapop.category_model</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <strong>
+                                        <field name="complete_name"/>
+                                    </strong>
+                                    <div t-if="record.category_parent_id.value">
+                    Parent: <field name="category_parent_id"/>
+                                    </div>
+                                    <div>
+                    Subcategories: <field name="category_son_ids" widget="many2many_tags"/>
+                                    </div>
+                                    <div>
+                    Items: <field name="item_ids" widget="many2many_tags"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    </data>
+</odoo>

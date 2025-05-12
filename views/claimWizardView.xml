@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="view_claim_wizard_form" model="ir.ui.view">
+            <field name="name">iscapop.claim_wizard.form</field>
+            <field name="model">iscapop.claim_wizard</field>           
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+<field name="donation_id" invisible="1"/>
+<field name="target_location_id" invisible="0"/>
+                        </group>
+                        <footer>
+                            <button name="action_confirm_claim" string="Confirm Claim" type="object" class="oe_highlight"/>
+                            <button string="Cancel" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

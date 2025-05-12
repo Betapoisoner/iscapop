@@ -1,60 +1,30 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="custom-addons/iscapop.list">
-      <field name="name">custom-addons/iscapop list</field>
-      <field name="model">custom-addons/iscapop.custom-addons/iscapop</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
--->
+    <menuitem name="Iscapop" id="iscapop.menu_root" />
 
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="custom-addons/iscapop.action_window">
-      <field name="name">custom-addons/iscapop window</field>
-      <field name="res_model">custom-addons/iscapop.custom-addons/iscapop</field>
-      <field name="view_mode">tree,form</field>
-    </record>
--->
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="custom-addons/iscapop.action_server">
-      <field name="name">custom-addons/iscapop server</field>
-      <field name="model_id" ref="model_custom-addons/iscapop_custom-addons/iscapop"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
-    <!-- Top menu item -->
-<!--
-    <menuitem name="custom-addons/iscapop" id="custom-addons/iscapop.menu_root"/>
--->
     <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="custom-addons/iscapop.menu_1" parent="custom-addons/iscapop.menu_root"/>
-    <menuitem name="Menu 2" id="custom-addons/iscapop.menu_2" parent="custom-addons/iscapop.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="custom-addons/iscapop.menu_1_list" parent="custom-addons/iscapop.menu_1"
-              action="custom-addons/iscapop.action_window"/>
-    <menuitem name="Server to list" id="custom-addons/iscapop" parent="custom-addons/iscapop.menu_2"
-              action="custom-addons/iscapop.action_server"/>
--->
+
+    <menuitem name="Donation" id="iscapop.donations" parent="iscapop.menu_root"/>
+
+    <menuitem name="List donations" id="iscapop.donations_list" parent="iscapop.donations" action="iscapop.action_window_donation_list"/>
+
+
+    <menuitem name="Details" id="iscapop.items_details" parent="iscapop.menu_root"/>
+
+    <menuitem name="Item Pivot" id="iscapop.items_details_pivot_view" parent="iscapop.items_details" action="iscapop.action_window_item_details_pivot"/>
+    <menuitem name="Item Graph" id="iscapop.items_details_graph_view" parent="iscapop.items_details" action="iscapop.action_window_item_details_graph"/>
+
+
+    <menuitem name="Items" id="iscapop.items" parent="iscapop.menu_root"/>
+
+    <menuitem name="List Items" id="iscapop.items_list" parent="iscapop.items" action="iscapop.action_window_item_list"/>
+    <menuitem name="Create Item" id="iscapop.items_create" parent="iscapop.items" action="iscapop.action_window_item_create"/>
+
+
+    <menuitem name="Location" id="iscapop.locations" parent="iscapop.menu_root"/>
+
+    <menuitem name="List Locations" id="iscapop.locations_list" parent="iscapop.locations" action="iscapop.action_window_location_list"/>
+    <menuitem name="Add Location" id="iscapop.locations_create" parent="iscapop.locations" action="iscapop.action_window_location_create"/>
+
   </data>
 </odoo>

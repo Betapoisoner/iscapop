@@ -1,117 +1,46 @@
 <odoo>
     <data>
-        <!-- explicit list view definition 
-        <record model="ir.ui.view" id="iscapop.item_all_model_tree">
-            <field name="name">Tree Client</field>
-            <field name="model">invoices.client_model</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="surname" />
-                    <field name="dni" />
-                    <field name="phone" widget="telephone" />
-                    <field name="email" widget="email" />
-                    <field name="invoice_ids" widget="tags"/>
-                </tree>
-            </field>
-        </record>-->
-
-        <!-- explicit form view definition -->
-        <record model="ir.ui.view" id="iscapop.location_all_model_tree">
-            <field name="name">Tree Location</field>
-            <field name="model">iscapop.location_model</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="description" />
-                    <field name="loc_type" widget="badge"/>
-                    <field name="stock_full" />
-                </tree>
-            </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="iscapop.wizard_action_donate">
-            <field name="domain">[('loc_type', '=', 'warehouse')]</field>
-            <field name="name">Donate</field>
-            <field name="res_model">iscapop.donation_wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-
-        <record model="ir.ui.view" id="iscapop.location_all_model_form">
-            <field name="name">Location Form</field>
+        <!-- Location Form View -->
+        <record id="view_location_form" model="ir.ui.view">
+            <field name="name">iscapop.location_model.form</field>
             <field name="model">iscapop.location_model</field>
             <field name="arch" type="xml">
                 <form>
-                    <header>
-                        <button name="%(iscapop.wizard_action_donate)d" string="Donate" type="action" invisible="" />
-                    </header>
                     <sheet>
-
-                        <group name="mainGroup">
-                            <group name="LeftSide" string="Info">
+                        <group>
+                            <group>
                                 <field name="name"/>
-                                <field name="description" />
-                                <field name="stock_full" />
-                                <field name="loc_type" widget="selection_badge"/>
+                                <field name="loc_type" widget="radio"/>
+                                <field name="stock_full" widget="integer"/>
                             </group>
-                            <group name="RightSide" string="">
-                                <notebook colspan="2">
-                                    <page name="items" string="Items">
-                                        <field name="details_ids" domain="[('create_uid','=',uid,)]">
-                                            <tree>
-                                                <field name="item_id" />
-                                                <field name="condition"/>
-                                                <field name="state" />
-                                                <field name="stock"/>
-                                                <field name="reserved" />
-                                            </tree>
-                                        </field>
-                                    </page>
-                                </notebook>
-                            </group>
-                            <group name="CenterSide" colspan="2">
+                            <group>
+                                <field name="description" nolabel="1"/>
                             </group>
                         </group>
-
+                        <field name="details_ids">
+                            <tree>
+                                <field name="item_id"/>
+                                <field name="condition" widget="badge"/>
+                                <field name="state" widget="statusbar"/>
+                                <field name="stock" widget="integer"/>
+                            </tree>
+                        </field>
                     </sheet>
                 </form>
             </field>
         </record>
 
-
-
-
-        <record model="ir.actions.act_window" id="iscapop.action_window_location_list">
-            <field name="domain">[('create_uid', '=', uid)]</field>
-            <field name="name">Location list</field>
-            <field name="res_model">iscapop.location_model</field>
-            <field name="view_mode">tree,form</field>
+        <!-- Location Tree View -->
+        <record id="view_location_tree" model="ir.ui.view">
+            <field name="name">iscapop.location_model.tree</field>
+            <field name="model">iscapop.location_model</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="loc_type" widget="badge"/>
+                    <field name="stock_full"/>
+                </tree>
+            </field>
         </record>
-
-        <record model="ir.actions.act_window" id="iscapop.action_window_location_create">
-            <field name="name">Add Location </field>
-            <field name="res_model">iscapop.location_model</field>
-            <field name="view_mode">form</field>
-        </record>
-
-        <!-- Top menu item -->
-
-        <menuitem name="Iscapop" id="iscapop.menu_root"/>
-        <!--    <menuitem name="custom-addons/iscapop" id="custom-addons/iscapop.menu_root"/>
-        -->
-
-        <!-- menu categories -->
-
-        <menuitem name="Location" id="iscapop.locations" parent="iscapop.menu_root"/>
-        <!--    <menuitem name="Menu 2" id="custom-addons/iscapop.menu_2" parent="custom-addons/iscapop.menu_root"/>
-    -->
-        <!-- actions -->
-
-        <menuitem name="List Locations" id="iscapop.locations_list" parent="iscapop.locations" action="iscapop.action_window_location_list"/>
-        <menuitem name="Add Location" id="iscapop.locations_create" parent="iscapop.locations" action="iscapop.action_window_location_create"/>
-
-        <!--    <menuitem name="Server to list" id="custom-addons/iscapop" parent="custom-addons/iscapop.menu_2" action="custom-addons/iscapop.action_server"/>
--->
     </data>
 </odoo>

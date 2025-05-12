@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report id="action_report_donation_completion" model="iscapop.donation_model" string="Donation Completion Report" report_type="qweb-pdf" name="iscapop.report_donation_completion" file="iscapop.report_donation_completion" paperformat="a4" />
+        <record id="action_report_retirement_completion" model="ir.actions.report">
+            <field name="name">Retirement Report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">iscapop.item_details_model</field>
+            <field name="report_name">iscapop.report_retirement_completion</field>
+        </record>
+    </data>
+</odoo>

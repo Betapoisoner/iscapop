@@ -1,39 +1,44 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "iscapop",
-
-    'summary': "iscapop",
-
-    'description': """
+    "name": "iscapop",
+    "summary": "iscapop",
+    "description": """
 Highschool items changer app
     """,
-
-    'author': "Sergi",
-    'website': "https://github.com/Betapoisoner",
-
+    "author": "Sergi",
+    "website": "https://github.com/Betapoisoner",
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
-
+    "category": "Uncategorized",
+    "version": "0.1",
     # any module necessary for this one to work correctly
-    'depends': ['base'],
-
+    "depends": ["base"],
+    "external_dependencies": {
+        "python": ["qrcode"],
+    },
     # always loaded
-    'data': [
-        'security/ir.model.access.csv',
-        'views/itemView.xml',
-        'views/locationView.xml',
-        'views/donationView.xml',
-        'views/donationWizardView.xml',
-        'views/itemDetailsView.xml'
+    "data": [
+        "security/ir.model.access.csv",
+        "security/security_rules.xml",
+        "pdfs/donation_report_template.xml",
+        "pdfs/retirement_report_template.xml",
+        "views/reports.xml",
+        "views/menu_actions.xml",
+        "views/transferWizardView.xml",
+        "views/retirementWizardView.xml",
+        "views/claimWizardView.xml",
+        "views/categoryView.xml",
+        "views/itemView.xml",
+        "views/locationView.xml",
+        "views/donationView.xml",
+        "views/donationWizardView.xml",
+        "views/itemDetailsView.xml",
     ],
     # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
+    "demo": [
+        "demo/demo.xml",
     ],
-    'application':True,
-    'installable':True,
+    "application": True,
+    "installable": True,
 }
-

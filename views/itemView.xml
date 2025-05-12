@@ -1,72 +1,83 @@
 <odoo>
     <data>
-        
-        <!-- explicit form view definition -->
-        <record model="ir.ui.view" id="iscapop.item_all_model_form">
-            <field name="name">Item Form</field>
+        <!-- Item Form View -->
+        <record id="view_item_form" model="ir.ui.view">
+            <field name="name">iscapop.item_model.form</field>
             <field name="model">iscapop.item_model</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="open_transfer_wizard" string="Transfer Stock" type="object" class="oe_highlight"/>
+                        <button name="open_donation_wizard" string="Donate Items" type="object" class="oe_highlight"/>
+
+                    </header>
                     <sheet>
-                        <body>
-                            <group name="mainGroup">
-                                <group name="LeftSide" string="Info">
-                                    <field name="name"/>
-                                    <field name="description" />
-                                    <field name="stock_full" />
-                                    <field name="category_id" />
-                                </group>
-                                <group name="RightSide" string="Photo">
-                                    <field name="photo" widget="image"/>
-                                </group>
-                                <group name="CenterSide" colspan="2">
-                                    <notebook colspan="2">
-                                        <page name="details" string="Details">
-                                            <field name="details_ids">
-                                                <tree>
-                                                    <field name="condition"/>
-                                                    <field name="reserved" />
-                                                    <field name="state" widget="badge" />
-                                                    <field name="location_id" />
-                                                    <field name="stock"/>
-                                                </tree>
-                                            </field>
-                                        </page>
-                                    </notebook>
-                                </group>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="category_id"/>
+                                <field name="stock_full" widget="integer"/>
                             </group>
-                        </body>
+                            <group>
+                                <field name="photo" widget="image" class="oe_avatar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                            <page string="Stocked Goods">
+                                <field name="details_ids">
+                                    <tree>
+                                        <field name="condition" widget="badge"/>
+                                        <field name="state" widget="statusbar" statusbar_visible="stored,in_class,donating,retired"/>
+                                        <field name="location_id"/>
+                                        <field name="stock" widget="integer"/>
+                                        <field name="reserved" widget="boolean_checkbox"/>
+                                        <button name="open_retirement_wizard" string="Retire Item" type="object" class="oe_highlight" invisible="state in ['retired', 'donating']"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
 
-
-        <!-- Kanban View-->
-        <record model="ir.ui.view" id="iscapop.item_model_kanban">
-            <field name="name">Item List</field>
+        <!-- Item Tree View -->
+        <record id="view_item_tree" model="ir.ui.view">
+            <field name="name">iscapop.item_model.tree</field>
             <field name="model">iscapop.item_model</field>
             <field name="arch" type="xml">
-                <kanban class="o_res_partner_kanban" on_create="quick_create">
+                <tree>
+                    <field name="photo" widget="image" width="64"/>
                     <field name="name"/>
-                    <field name="description"/>
-                    <field name="photo"/>
+                    <field name="category_id"/>
                     <field name="stock_full"/>
+                </tree>
+            </field>
+        </record>
 
+        <!-- Item Kanban View -->
+        <record id="view_item_kanban" model="ir.ui.view">
+            <field name="name">iscapop.item_model.kanban</field>
+            <field name="model">iscapop.item_model</field>
+            <field name="arch" type="xml">
+                <kanban>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_global_click">
                                 <div class="o_kanban_image">
-                                    <field name="photo" nolabel="1" widget="image" class="oe_left oe_avatar"/>
+                                    <field name="photo" widget="image" class="oe_kanban_image"/>
                                 </div>
                                 <div class="oe_kanban_details">
                                     <strong>
-                                        <field name="name" class="oe_inline"/>
+                                        <field name="name"/>
                                     </strong>
-                                    <div t-if="record.stock_full.value">
-                                        <t t-esc="record.stock_full.value"/>
+                                    <div>Category: <field name="category_id"/>
                                     </div>
-                                    <field name="category_id" />
+                                    <div>Stock: <field name="stock_full"/>
+                                    </div>
                                 </div>
                             </div>
                         </t>
@@ -74,36 +85,5 @@
                 </kanban>
             </field>
         </record>
-
-        <record model="ir.actions.act_window" id="iscapop.action_window_item_list">
-            <field name="domain">[('create_uid', '=', uid)]</field>
-            <field name="name">Item list</field>
-            <field name="res_model">iscapop.item_model</field>
-            <field name="view_mode">kanban,form</field>
-        </record>
-
-        <record model="ir.actions.act_window" id="iscapop.action_window_item_create">
-            <field name="name">Item create</field>
-            <field name="res_model">iscapop.item_model</field>
-            <field name="view_mode">form</field>
-        </record>
-
-        <menuitem name="Iscapop" id="iscapop.menu_root" />
-        <!--    <menuitem name="custom-addons/iscapop" id="custom-addons/iscapop.menu_root"/>
-        -->
-
-        <!-- menu categories -->
-
-        <menuitem name="Items" id="iscapop.items" parent="iscapop.menu_root"/>
-        <!--    <menuitem name="Menu 2" id="custom-addons/iscapop.menu_2" parent="custom-addons/iscapop.menu_root"/>
-    -->
-        <!-- actions -->
-
-        <menuitem name="List Items" id="iscapop.items_list" parent="iscapop.items" action="iscapop.action_window_item_list"/>
-        <menuitem name="Create Item" id="iscapop.items_create" parent="iscapop.items" action="iscapop.action_window_item_create"/>
-
-
-        <!--    <menuitem name="Server to list" id="custom-addons/iscapop" parent="custom-addons/iscapop.menu_2" action="custom-addons/iscapop.action_server"/>
--->
     </data>
 </odoo>

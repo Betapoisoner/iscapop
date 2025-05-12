@@ -4,4 +4,4 @@ from odoo.http import request
 
 
 class Iscapop(http.Controller):
-    a=0
+    a = 0

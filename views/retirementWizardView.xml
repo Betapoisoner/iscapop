@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record id="view_retirement_wizard_form" model="ir.ui.view">
+            <field name="name">iscapop.retirement_wizard.form</field>
+            <field name="model">iscapop.retirement_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="option" widget="radio"/>
+                            <field name="retire_location_id" invisible="option != 'existing'"/>
+                            <field name="new_location_name" required="option == 'new'" invisible="option != 'new'"/>
+                        </group>
+                        <footer>
+                            <button name="action_retire" string="Retire Item" type="object" class="oe_highlight"/>
+                            <button string="Cancel" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

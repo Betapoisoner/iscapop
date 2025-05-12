@@ -1,41 +1,35 @@
 <odoo>
     <data>
         <record id="iscapop.form_item_details" model="ir.ui.view">
-            <field name="name">iscapop.item_details_model.form</field>
+            <field name="name">Item Details Form</field>
             <field name="model">iscapop.item_details_model</field>
             <field name="arch" type="xml">
-                <form string="Item Details">
+                <form>
                     <sheet>
                         <group>
-                            <group>
-                                <field name="item_id" widget="many2one" options="{'no_open': True, 'no_create': True}"/>
+                            <group string="Basic Info">
+                                <field name="item_id" widget="many2one" options="{'no_open': True}"/>
                                 <field name="condition" widget="radio"/>
-                                <field name="state" readonly="1"/>
+                                <field name="state" widget="statusbar" statusbar_visible="stored,in_class,donating,retired"/>
+                            </group>
+                            <group string="Location And Stock">
+                                <field name="location_id" domain="[('create_uid', '=', uid)]"/>
+                                <field name="stock" widget="integer"/>
                                 <field name="reserved" widget="boolean_checkbox"/>
                             </group>
-                            <group>
-                                <field name="location_id" widget="many2one" domain="[('create_uid', '=', uid)]" />
-                                <field name="donation_id" widget="many2one" invisible="state != 'donating'"/>
-                                <field name="stock" widget="integer"/>
-                            </group>
                         </group>
-
                         <notebook>
-                            <page string="Attachments">
+                            <page string="Documents">
                                 <group>
-                                    <field name="warranty" widget="binary" filename="warranty_filename" string="Warranty File"/>
-                                    <field name="additional_files" widget="binary" filename="additional_files_filename" string="Additional Files"/>
+                                    <field name="warranty" widget="binary" filename="warranty_filename" string="Warranty File" required="1"/>
+                                    <field name="additional_files" widget="binary" filename="additional_files_filename" string="Additional Documents"/>
                                 </group>
                             </page>
                         </notebook>
                     </sheet>
-
                     <header>
-                        <button name="action_mark_reserved" type="object" string="Reserve" class="oe_highlight" invisible="reserved or state != 'in_class'"/>
-
+                        <button name="action_mark_reserved" type="object" string="Reserve" class="oe_highlight" invisible="reserved or state != 'donating'"/>
                         <button name="action_unreserve" type="object" string="Unreserve" invisible="not reserved"/>
-
-                        <field name="state" widget="statusbar" clickable="1" statusbar_visible="stored,in_class,donating,retired"/>
                     </header>
                 </form>
             </field>
@@ -53,46 +47,5 @@
 
             </field>
         </record>
-
-        <record model="ir.ui.view" id="iscapop.pivot_item_details">
-            <field name="name">Item Pivot</field>
-            <field name="model">iscapop.item_details_model</field>
-            <field name="arch" type="xml">
-                <pivot string="Pivot Item">
-                    <field name="stock" type="measure" />
-                    <field name="item_id" type="col" />
-                    <field name="condition" type="row" />
-                </pivot>
-            </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="iscapop.action_window_item_details_graph">
-            <field name="domain">[('create_uid', '=', uid)]</field>
-            <field name="name">Item Details Graph</field>
-            <field name="res_model">iscapop.item_details_model</field>
-            <field name="view_mode">graph</field>
-        </record>
-
-        <record model="ir.actions.act_window" id="iscapop.action_window_item_details_form">
-            <field name="domain">[('create_uid', '=', uid)]</field>
-            <field name="name">Item Details Form</field>
-            <field name="res_model">iscapop.item_details_model</field>
-            <field name="view_mode">form</field>
-        </record>
-
-        <record model="ir.actions.act_window" id="iscapop.action_window_item_details_pivot">
-            <field name="domain">[('create_uid', '=', uid)]</field>
-            <field name="name">Item Details Pivot</field>
-            <field name="res_model">iscapop.item_details_model</field>
-            <field name="view_mode">pivot</field>
-        </record>
-
-        <menuitem name="Iscapop" id="iscapop.menu_root"/>
-
-        <menuitem name="Details" id="iscapop.items_details" parent="iscapop.menu_root"/>
-
-        <menuitem name="Item Pivot" id="iscapop.items_details_pivot_view" parent="iscapop.items_details" action="iscapop.action_window_item_details_pivot"/>
-        <menuitem name="Item Graph" id="iscapop.items_details_graph_view" parent="iscapop.items_details" action="iscapop.action_window_item_details_graph"/>
-
     </data>
 </odoo>
