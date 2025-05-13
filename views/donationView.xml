@@ -1,46 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record id="view_donation_search" model="ir.ui.view">
-            <field name="name">iscapop.donation_model.search</field>
+        <!-- Tree View -->
+        <record id="view_donation_tree" model="ir.ui.view">
+            <field name="name">donation.tree</field>
             <field name="model">iscapop.donation_model</field>
             <field name="arch" type="xml">
-                <search>
-                    <!-- Your filters go here -->
-                    <filter name="my_donations" string="My Donations" domain="[('donator','=',uid), ('state','not in',['completed'])]"/>
-                    <filter name="others_donations" string="Others' Donations" domain="[('donator','!=',uid), ('state','=','available'), ('active','=',True)]"/>
-                    <filter name="completed" string="Completed Donations" domain="[('state','=','completed')]"/>
-                    <filter name="active" string="Active" domain="[('active','=',True)]"/>
-                </search>
-            </field>
-        </record>
-        <record id="view_donation_tree" model="ir.ui.view">
-            <field name="arch" type="xml">
                 <tree>
-                    <field name="name"/>
-                    <field name="donator"/>
-                    <field name="receiver"/>
+                    <field name="name" string="Reference"/>
+                    <field name="item_id" string="Item" widget="many2one"/>
+                    <field name="donator" string="Donor"/>
+                    <field name="receiver" string="Receiver"/>
                     <field name="state" widget="badge"/>
+                    <field name="create_date" string="Date"/>
                 </tree>
             </field>
         </record>
 
+        <!-- Form View -->
         <record id="view_donation_form" model="ir.ui.view">
+            <field name="name">donation.form</field>
+            <field name="model">iscapop.donation_model</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <header>
-                            <button name="action_claim_donation" type="object" string="Claim Donation" class="oe_highlight" invisible="state != 'available' or donator == uid"/>
-                            <button name="action_complete_donation" type="object" string="Complete Donation" class="oe_highlight" invisible="state != 'reserved' or donator != uid"/>
-                        </header>
                         <group>
                             <field name="item_id" readonly="1"/>
-                            <field name="state" widget="statusbar"/>
+                            <field name="state" widget="statusbar" statusbar_visible="available,reserved,completed"/>
                             <field name="donator" readonly="1"/>
                             <field name="receiver" readonly="1"/>
+                            <field name="target_location_id"/>
+                            <field name="create_date" readonly="1"/>
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
 
+        <!-- Search View -->
+        <record id="view_donation_search" model="ir.ui.view">
+            <field name="name">donation.search</field>
+            <field name="model">iscapop.donation_model</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <filter name="available" string="Available" domain="[('state','=','available')]"/>
+                    <filter name="reserved" string="Reserved" domain="[('state','=','reserved')]"/>
+                </search>
             </field>
         </record>
     </data>
