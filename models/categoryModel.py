@@ -2,7 +2,7 @@ from odoo import models, fields, api
 
 
 class categoryModel(models.Model):
-    _name = 'iscapop.category_model'
+    _name = "iscapop.category_model"
     _description = 'iscapop.category_model'
     _rec_name = "complete_name"
 

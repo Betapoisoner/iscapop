@@ -70,14 +70,16 @@
                                     <strong>
                                         <field name="complete_name"/>
                                     </strong>
-                                    <div t-if="record.category_parent_id.value">
-                    Parent: <field name="category_parent_id"/>
+                                    <div t-if="record.category_parent_id.raw_value">
+                                Parent: <field name="category_parent_id" widget="many2one"/>
                                     </div>
                                     <div>
-                    Subcategories: <field name="category_son_ids" widget="many2many_tags"/>
+                                Subcategories: 
+                                        <field name="category_son_ids" widget="many2many_tags" options="{'no_open': True}"/>
                                     </div>
                                     <div>
-                    Items: <field name="item_ids" widget="many2many_tags"/>
+                                Items: 
+                                        <field name="item_ids" widget="many2many_tags" options="{'no_open': True}"/>
                                     </div>
                                 </div>
                             </div>

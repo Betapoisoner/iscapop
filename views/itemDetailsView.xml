@@ -39,12 +39,11 @@
             <field name="name">Item Graph</field>
             <field name="model">iscapop.item_details_model</field>
             <field name="arch" type="xml">
-
                 <graph type="pie">
                     <field name="condition" type="row"/>
                     <field name="stock" type="measure"/>
+                    <field name="location_id" type="group"/>
                 </graph>
-
             </field>
         </record>
     </data>

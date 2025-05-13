@@ -7,10 +7,10 @@
             <field name="domain_force">[(1, '=', 1)]</field>
             <field name="groups" eval="[(4, ref('base.group_system'))]"/>
         </record>
-        <record id="donation_global_rule" model="ir.rule">
+       <record id="donation_global_rule" model="ir.rule">
             <field name="name">Global Donation Access</field>
             <field name="model_id" ref="model_iscapop_donation_model"/>
-            <field name="domain_force">[ ('create_uid', '!=', user.id)]</field>
+            <field name="domain_force">[('create_uid','!=', user.id)]</field>
             <field name="global" eval="True"/>
         </record>
         <record id="donation_access_rule" model="ir.rule">

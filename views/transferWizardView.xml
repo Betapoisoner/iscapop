@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
         <record id="view_transfer_wizard_form" model="ir.ui.view">
@@ -12,7 +13,7 @@
                         <!-- Step 1: Source Selection -->
                         <div invisible="state != 'select_source'">
                             <div class="oe_title">
-                                <h2>Step 1: Select Source</h2>
+                                <h2>Item Transfer</h2>
                             </div>
                             <group>
                                 <field name="item_id" readonly="1"/>
@@ -31,8 +32,9 @@
                             <div class="oe_title">
                                 <h2>Step 2: Select Destination</h2>
                                 <div class="alert alert-info">
-                                    Transferring <field name="condition"/>
- items from <field name="source_location_id"/>
+Transferring<field name="condition"/>
+ items from 
+                                <field name="source_location_id"/>
                             </div>
                         </div>
                         <group>
