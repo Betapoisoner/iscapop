@@ -48,13 +48,13 @@ class itemModel(models.Model):
 
     def open_donation_wizard(self):
         return {
-        "name": "Donate Items",
-        "type": "ir.actions.act_window",
-        "res_model": "iscapop.donation_wizard",
-        "view_mode": "form",
-        "target": "new",
-        "context": {"default_item_id": self.id},
-    }
+            "name": "Donate Items",
+            "type": "ir.actions.act_window",
+            "res_model": "iscapop.donation_wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_item_id": self.id},
+        }
 
     @api.depends("details_ids")
     def _compute_stock_total(self):

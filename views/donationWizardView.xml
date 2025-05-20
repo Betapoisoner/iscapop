@@ -6,16 +6,44 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group>
-                            <field name="condition"/>
-                            <field name="quantity"/>
-                            <field name="available_stock"/>
+                        <div class="wizard-header" style="padding: 16px; background: #f8f9fa; border-bottom: 1px solid #dee2e6;">
+                            <h2 style="margin: 0; color: #2c3e50;">🚀 New Donation</h2>
+                        </div>
 
+                        <div class="wizard-body" style="padding: 24px;">
+                            <div style="max-width: 600px; margin: 0 auto;">
+                                <div string="Donation Details" style="margin-bottom: 24px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                        <div>
+                                            <label string="Condition" for="condition" style="display: block; color: #6c757d; margin-bottom: 4px;"/>
+                                            <field name="condition" widget="radio" options="{'horizontal': true}" style="display: flex; gap: 16px; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;"/>
+                                        </div>
 
-                        </group>
-                        <footer>
-                            <button name="action_donate" string="Donate Items" type="object" class="oe_highlight"/>
-                            <button string="Cancel" special="cancel"/>
+                                        <div>
+                                            <label string="Available Stock" for="available_stock" style="display: block; color: #6c757d; margin-bottom: 4px;"/>
+                                            <div style="font-size: 1.2em; font-weight: 500; color: #28a745;">
+                                                <field name="available_stock"/>
+                                                <span> units available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 16px;">
+                                        <label string="Quantity to Donate" for="quantity" style="display: block; color: #6c757d; margin-bottom: 4px;"/>
+                                        <field name="quantity" style="width: 200px; padding: 8px; border-radius: 4px; border: 1px solid #ced4da;"/>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info" style="padding: 12px; background: #e3f2fd; border-radius: 4px; color: #0d47a1; margin: 16px 0;">
+                                    <i class="fa fa-info-circle"/>
+ All donations will be marked as reserved until confirmed by the receiver
+                                </div>
+                            </div>
+                        </div>
+
+                        <footer style="padding: 16px; background: #f8f9fa; border-top: 1px solid #dee2e6; text-align: right;">
+                            <button name="action_donate" type="object" string="Confirm Donation" class="oe_highlight" style="padding: 8px 16px; border-radius: 4px;"/>
+                            <button string="Cancel" special="cancel" style="padding: 8px 16px; background: #f8f9fa; border: 1px solid #dee2e6;"/>
                         </footer>
                     </sheet>
                 </form>

@@ -44,20 +44,6 @@
             </field>
         </record>
 
-        <!-- Item Tree View -->
-        <record id="view_item_tree" model="ir.ui.view">
-            <field name="name">iscapop.item_model.tree</field>
-            <field name="model">iscapop.item_model</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="photo" widget="image" width="64"/>
-                    <field name="name"/>
-                    <field name="category_id"/>
-                    <field name="stock_full"/>
-                </tree>
-            </field>
-        </record>
-
         <!-- Item Kanban View -->
         <record id="view_item_kanban" model="ir.ui.view">
             <field name="name">iscapop.item_model.kanban</field>
@@ -66,17 +52,42 @@
                 <kanban>
                     <templates>
                         <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click">
-                                <div class="o_kanban_image">
-                                    <field name="photo" widget="image" class="oe_kanban_image"/>
-                                </div>
-                                <div class="oe_kanban_details">
-                                    <strong>
-                                        <field name="name"/>
-                                    </strong>
-                                    <div>Category: <field name="category_id"/>
+                            <div class="oe_kanban_global_click custom-kanban-card" style="padding: 16px; margin: 8px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <div class="kanban-content-wrapper">
+                                    <!-- Image Section -->
+                                    <div class="kanban-image-container">
+                                        <field name="photo" widget="image" class="kanban-item-image"/>
                                     </div>
-                                    <div>Stock: <field name="stock_full"/>
+
+                                    <!-- Details Section -->
+                                    <div class="kanban-details">
+                                        <div class="item-header">
+                                            <strong class="item-name">
+                                                <field name="name"/>
+                                            </strong>
+                                            <div class="item-category">
+                                                <i class="fa fa-folder-open mr-2"/>
+                                                <field name="category_id"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="stock-info">
+                                            <i class="fa fa-cubes mr-2"/>
+                                            <field name="stock_full"/>
+                                            <span class="stock-label">in stock</span>
+                                        </div>
+
+                                        <!-- Action Buttons -->
+                                        <div class="button-container">
+                                            <button name="open_transfer_wizard" type="object" class="btn-transfer oe_kanban_action_button">
+                                                <i class="fa fa-exchange mr-2"/>
+                                Transfer
+                                            </button>
+                                            <button name="open_donation_wizard" type="object" class="btn-donate oe_kanban_action_button">
+                                                <i class="fa fa-gift mr-2"/>
+                                Donate
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -1,7 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-     <template id="report_donation_completion">
+    <template id="report_donation_completion">
         <t t-call="web.html_container">
+            <style>
+    .report-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
+    
+    .header-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85em;
+    }
+    
+    .status-available { background: #d4edda; color: #155724; }
+    .status-reserved { background: #fff3cd; color: #856404; }
+    .status-completed { background: #d1ecf1; color: #0c5460; }
+    
+    .detail-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+    }
+    
+    .detail-table th {
+        background: #2c3e50;
+        color: white;
+        padding: 1rem;
+        text-align: left;
+    }
+    
+    .detail-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .detail-table tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+            </style>
             <t t-foreach="docs" t-as="doc">
                 <div class="page" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 15mm;">
                     <!-- Watermark Background -->

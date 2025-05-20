@@ -20,15 +20,15 @@ class locationModel(models.Model):
     )
 
     loc_type = fields.Selection(
-    selection=[
-        ("class", "Class"),
-        ("warehouse", "Warehouse"),
-        ("retire", "Retire Room"),
-    ],
-    string="Type",
-    required=True,
-    default="class",
-)
+        selection=[
+            ("class", "Class"),
+            ("warehouse", "Warehouse"),
+            ("retire", "Retire Room"),
+        ],
+        string="Type",
+        required=True,
+        default="class",
+    )
 
     stock_full = fields.Integer(
         string="Full Stock",

@@ -23,6 +23,12 @@
             <field name="model">iscapop.donation_model</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <header>
+                            <button name="action_complete_donation" type="object" string="Complete Donation" class="oe_highlight" invisible="donator !=  uid or state != 'reserved'"/>
+                            <button name="action_open_claim_wizard" type="object" string="Claim Donation" class="btn-primary" invisible="donator == uid or state != 'available'"/>
+                        </header>
+                    </header>
                     <sheet>
                         <group>
                             <field name="item_id" readonly="1"/>
@@ -48,6 +54,76 @@
                     <filter name="available" string="Available" domain="[('state','=','available')]"/>
                     <filter name="reserved" string="Reserved" domain="[('state','=','reserved')]"/>
                 </search>
+            </field>
+        </record>
+
+        <!-- Kanban View -->
+        <record id="view_donation_kanban" model="ir.ui.view">
+            <field name="name">iscapop.donation_model.kanban</field>
+            <field name="model">iscapop.donation_model</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click custom-kanban-card" style="padding: 16px; margin: 8px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <div class="kanban-content-wrapper">
+                                    <!-- Image Section -->
+
+
+                                    <!-- Details Section -->
+                                    <div class="kanban-details">
+                                        <div class="item-header">
+                                            <strong class="item-name">
+                                                <field name="name"/>
+                                            </strong>
+                                            <div class="item-category">
+                                                <i class="fa fa-tag mr-2"/>
+                                                <field name="item_id" string="Item"/>
+                                            </div>
+                                        </div>
+
+                                        <div style="margin-top: 12px;">
+                                            <div style="display: flex; gap: 16px; margin-bottom: 8px;">
+                                                <div>
+                                                    <i class="fa fa-user mr-2"/>
+                                                    <field name="donator" string="Donator"/>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-users mr-2"/>
+                                                    <field name="receiver" string="Receiver"/>
+                                                </div>
+                                            </div>
+
+                                            <div style="display: flex; gap: 16px;">
+                                                <div>
+                                                    <i class="fa fa-calendar mr-2"/>
+                                                    <field name="create_date"/>
+                                                </div>
+                                                <div>
+                                                    <div class="donation-status" t-att-class="'status-' + record.state.raw_value">
+                                                        <field name="state" string="Status"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Action Buttons -->
+                                        <div class="button-container">
+                                            <button name="action_complete_donation" type="object" class="btn-transfer oe_kanban_action_button">
+                                                <i class="fa fa-check mr-2"/>
+    Complete Donation
+                                            </button>
+                                            <button name="action_open_claim_wizard" type="object" class="btn-donate oe_kanban_action_button">
+                                                <i class="fa fa-handshake-o mr-2"/>
+    Claim Donation
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
     </data>

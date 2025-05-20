@@ -42,7 +42,7 @@ class DonationWizard(models.TransientModel):
             [
                 ("item_id", "=", self.item_id.id),
                 ("condition", "=", self.condition),
-                ("state", "=", "donating"),
+                ("state", "=", "stored"),  # Changed from "donating"
                 ("reserved", "=", False),
             ],
             order="id",

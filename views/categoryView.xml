@@ -7,34 +7,34 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group>
-                            <group>
-                                <field name="name"/>
-                                <field name="complete_name" readonly="1"/>
-                                <field name="category_parent_id" widget="many2one"/>
-                            </group>
-                            <group>
-                                <field name="description" nolabel="1"/>
+                        <div class="iscapop-form-header" style="padding: 16px; background: #f8f9fa; border-bottom: 1px solid #dee2e6;">
+                            <h2 style="color: #2c3e50; margin: 0;">Category Management</h2>
+                        </div>
+
+                        <group class="iscapop-form-group" style="padding: 16px; margin: 16px 0; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <group style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;" string="Basic Information">
+                                <div style="padding: 12px; border: 1px solid #e9ecef; border-radius: 4px;">
+                                    <label class="o_form_label" for="name" string="Basic Information" style="font-weight: 600; color: #495057; margin-bottom: 8px; display: block;"/>
+                                    <field name="name" class="oe_inline" style="width: 100%;"/>
+                                    <field name="complete_name" style="color: #6c757d; font-size: 0.9em;"/>
+                                </div>
+
+                                <div style="padding: 12px; border: 1px solid #e9ecef; border-radius: 4px;">
+                                    <label string="Hierarchy" for="category_parent_id" style="font-weight: 600; color: #495057; margin-bottom: 8px; display: block;"/>
+                                    <field name="category_parent_id" widget="many2one" style="width: 100%;"/>
+                                </div>
                             </group>
                         </group>
 
-                        <notebook>
-                            <page string="Subcategories">
-                                <field name="category_son_ids">
-                                    <tree>
-                                        <field name="name"/>
+                        <notebook style="margin: 16px;">
+                            <page string="Subcategories" class="iscapop-notebook-page">
+                                <field name="category_son_ids" style="margin-top: 12px;">
+                                    <tree style="border: none;" colors="bg_gray:reserved == True">
+                                        <header style="background: #f8f9fa; border-radius: 4px 4px 0 0;">
+                                            <button name="open_subcategories" type="object" string="Open" class="oe_highlight"/>
+                                        </header>
+                                        <field name="name" style="font-weight: 600; color: #2c3e50;"/>
                                         <field name="complete_name"/>
-                                        <field name="description"/>
-                                    </tree>
-                                </field>
-                            </page>
-
-                            <page string="Items">
-                                <field name="item_ids">
-                                    <tree>
-                                        <field name="name"/>
-                                        <field name="stock_full"/>
-                                        <field name="details_ids" widget="many2many_tags"/>
                                     </tree>
                                 </field>
                             </page>

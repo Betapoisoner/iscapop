@@ -4,7 +4,7 @@
         <record model="ir.actions.act_window" id="action_window_item_list">
             <field name="name">Items</field>
             <field name="res_model">iscapop.item_model</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">kanban,form</field>
             <field name="domain">[('create_uid', '=', uid)]</field>
         </record>
 
@@ -18,18 +18,18 @@
         <record model="ir.actions.act_window" id="action_window_donation_list">
             <field name="name">Donations</field>
             <field name="res_model">iscapop.donation_model</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
         </record>
 
         <record model="ir.actions.act_window" id="action_window_item_details_pivot">
-            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="domain">['&amp;', ('create_uid','=',uid), ('state','not in',['donating'])]</field>
             <field name="name">Item Details Pivot</field>
             <field name="res_model">iscapop.item_details_model</field>
             <field name="view_mode">pivot</field>
         </record>
 
         <record model="ir.actions.act_window" id="action_window_item_details_graph">
-            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="domain">['&amp;', ('create_uid','=',uid), ('state','not in',['donating'])]</field>
             <field name="name">Item Details Graph</field>
             <field name="res_model">iscapop.item_details_model</field>
             <field name="view_mode">graph</field>
@@ -47,9 +47,9 @@
             <field name="report_type">qweb-pdf</field>
             <field name="model">iscapop.donation_model</field>
             <field name="report_name">iscapop.report_donation_completion</field>
-            
+
             <field name="binding_model_id" ref="iscapop.model_iscapop_donation_model" />
-            
+
         </record>
 
         <!-- Menu Structure -->

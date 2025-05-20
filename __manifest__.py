@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "iscapop",
     "summary": "iscapop",
@@ -29,6 +28,11 @@ Highschool items changer app
         "views/donationWizardView.xml",
         "views/reports.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "iscapop/static/src/css/kanban.css",
+        ],
+    },
     # only loaded in demonstration mode
     "demo": [],
     "application": True,

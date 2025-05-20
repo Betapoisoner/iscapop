@@ -8,22 +8,22 @@
                     <sheet>
                         <group>
                             <field name="donation_id" invisible="1"/>
-                            <field name="target_location_id" invisible="0"/>
-                        </group>
-                        <group>
+                            <field name="target_location_id"/>
+                            <field name="item_option" widget="radio"/>
 
-                            <field name="item_id" required="1"/>
+                            <!-- Existing Item -->
+                            <field name="item_id" domain="[('create_uid','=', uid), ('location_id', '=', target_location_id)]" required="item_option == 'existing'" invisible="item_option != 'existing'"/>
 
-                        </group>
-                        <group >
+                            <!-- New Item Fields -->
+                            <field name="new_item_name" required="item_option == 'new'" invisible="item_option != 'new'"/>
 
-                            <field name="new_item_name" required="1"/>
-                            <field name="new_item_description"/>
-                            <field name="new_item_category_id" required="1"/>
+                            <field name="new_item_description" invisible="item_option != 'new'"/>
+
+                            <field name="new_item_category_id" required="item_option == 'new'" invisible="item_option != 'new'"/>
                         </group>
                         <footer>
-                            <button name="action_confirm_claim" string="Confirm Claim" type="object" class="oe_highlight"/>
-                            <button string="Cancel" special="cancel"/>
+                            <button name="action_confirm_claim" string="Confirm Claim" type="object" class="btn-primary"/>
+                            <button string="Cancel" special="cancel" class="btn-secondary"/>
                         </footer>
                     </sheet>
                 </form>
