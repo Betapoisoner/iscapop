@@ -1,30 +1,25 @@
-<record id="view_donation_wizard_form" model="ir.ui.view">
-    <field name="name">donation.wizard.form</field>
-    <field name="model">iscapop.donation_wizard</field>
-    <field name="arch" type="xml">
-        <form>
-            <sheet>
-                <group>
-                    <field name="item_option" widget="radio"/>
-                    <group attrs="{'invisible': [('item_option', '!=', 'existing')]}">
-                        <field name="item_id" required="1"/>
-                        <field name="condition"/>
-                        <field name="quantity"/>
-                        <field name="available_stock"/>
-                    </group>
-                    <group attrs="{'invisible': [('item_option', '!=', 'new')]}">
-                        <field name="new_item_name" required="1"/>
-                        <field name="new_item_description"/>
-                        <field name="new_item_category_id" required="1"/>
-                        <field name="condition"/>
-                        <field name="quantity"/>
-                    </group>
-                </group>
-                <footer>
-                    <button name="action_donate" string="Donate Items" type="object" class="oe_highlight"/>
-                    <button string="Cancel" special="cancel"/>
-                </footer>
-            </sheet>
-        </form>
-    </field>
-</record>
+<odoo>
+    <data>
+        <record id="view_donation_wizard_form" model="ir.ui.view">
+            <field name="name">donation.wizard.form</field>
+            <field name="model">iscapop.donation_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="condition"/>
+                            <field name="quantity"/>
+                            <field name="available_stock"/>
+
+
+                        </group>
+                        <footer>
+                            <button name="action_donate" string="Donate Items" type="object" class="oe_highlight"/>
+                            <button string="Cancel" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

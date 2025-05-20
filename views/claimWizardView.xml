@@ -2,13 +2,24 @@
     <data>
         <record id="view_claim_wizard_form" model="ir.ui.view">
             <field name="name">iscapop.claim_wizard.form</field>
-            <field name="model">iscapop.claim_wizard</field>           
+            <field name="model">iscapop.claim_wizard</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-<field name="donation_id" invisible="1"/>
-<field name="target_location_id" invisible="0"/>
+                            <field name="donation_id" invisible="1"/>
+                            <field name="target_location_id" invisible="0"/>
+                        </group>
+                        <group>
+
+                            <field name="item_id" required="1"/>
+
+                        </group>
+                        <group >
+
+                            <field name="new_item_name" required="1"/>
+                            <field name="new_item_description"/>
+                            <field name="new_item_category_id" required="1"/>
                         </group>
                         <footer>
                             <button name="action_confirm_claim" string="Confirm Claim" type="object" class="oe_highlight"/>

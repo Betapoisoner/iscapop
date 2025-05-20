@@ -44,6 +44,10 @@ class RetirementWizard(models.TransientModel):
         self.item_detail_id.location_id = location
 
         # Return the report action
-        return self.env.ref(
-            "iscapop.action_report_retirement_completion"
-        ).report_action(self.item_detail_id)
+        return {
+            "type": "ir.actions.report",
+            "report_name": "iscapop.report_retirement_completion",
+            "report_type": "qweb-pdf",
+            "docs": self,
+            "context": {"discard_logo_check": True},
+        }
