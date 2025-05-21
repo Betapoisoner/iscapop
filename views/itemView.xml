@@ -28,7 +28,7 @@
                             </page>
                             <page string="Stocked Goods">
                                 <field name="details_ids">
-                                    <tree>
+                                    <tree domain="[('state','!=','donating')]">
                                         <field name="condition" widget="badge"/>
                                         <field name="state" widget="statusbar" statusbar_visible="stored,in_class,donating,retired"/>
                                         <field name="location_id"/>

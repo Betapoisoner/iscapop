@@ -48,6 +48,14 @@ class itemDetailsModel(models.Model):
         ondelete="restrict",
     )
 
+    date_in = fields.Date("Entry Date", default=fields.Date.today)
+    date_out = fields.Date("Exit Date")
+
+    category_name = fields.Char(related="item_id.category_id.name", store=True)
+    location_type = fields.Selection(
+        related="location_id.loc_type", string="Location Type", store=True
+    )
+
     donation_id = fields.Many2one(
         string="Donation",
         comodel_name="iscapop.donation_model",
@@ -110,6 +118,8 @@ class itemDetailsModel(models.Model):
     def _compute_state(self):
         for record in self:
             if record.donation_id:
+                record.state = "donating"
+            elif not record.location_id:
                 record.state = "donating"
             else:
                 if record.location_id.loc_type == "warehouse":
